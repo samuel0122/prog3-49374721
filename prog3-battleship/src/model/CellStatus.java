@@ -1,6 +1,6 @@
 package model;
 
-public enum CellStatus {
+enum CellStatus {
     WATER, HIT, DESTROYED;
 }
 

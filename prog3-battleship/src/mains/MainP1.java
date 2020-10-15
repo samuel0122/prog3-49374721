@@ -93,9 +93,9 @@ public class MainP1 {
 	    }
 	    System.out.println("Adyacentes de "+c1+" :");
 	    System.out.println(c1.adjacentCoordinates());
-	    CellStatus c = CellStatus.WATER;
+	   /* CellStatus c = CellStatus.WATER;
 	    System.out.println(c);
 	    Orientation o = Orientation.NORTH;
-	    System.out.println(o);
+	    System.out.println(o);*/
 	}
 }
