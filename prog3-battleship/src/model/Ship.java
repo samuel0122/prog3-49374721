@@ -4,9 +4,9 @@ import java.util.*;
 
 public class Ship {
 	
-	private static int BOUNDING_SQUARE_SIZE = 5;
-	private static int HIT_VALUE = -1;
-	private static int CRAFT_VALUE = 1;
+	private static final int BOUNDING_SQUARE_SIZE = 5;
+	private static final int HIT_VALUE = -1;
+	private static final int CRAFT_VALUE = 1;
 	
 	private Orientation orientation; //North, East...
 	private char symbol; //Caracter que representa al barco
@@ -95,10 +95,9 @@ public class Ship {
 	
 	//Hecho 
 	public int getShapeIndex(Coordinate c) {
-		if(c.get(0)>=0 && c.get(0)<BOUNDING_SQUARE_SIZE && c.get(1)>=0 && c.get(1)<BOUNDING_SQUARE_SIZE) //Comprueba que la coordenada sea correcta
-			return c.get(1)*BOUNDING_SQUARE_SIZE+c.get(0);
-		//######################################### QUE DEVUELVE ESTO?
-		return 2;
+		
+		return c.get(0)*(BOUNDING_SQUARE_SIZE)+c.get(1);
+
 	}
 	
 	//Hecho
@@ -133,9 +132,11 @@ public class Ship {
 	public boolean hit (Coordinate c) {
 		
 		int pos = getShapeIndex(getRelativePosition(c));
+		
 		if(shape[orientation.ordinal()][pos] == CRAFT_VALUE) {
 			shape[orientation.ordinal()][pos] = HIT_VALUE;
 			return true;
+			
 		}
 		return false;
 		
@@ -168,7 +169,7 @@ public class Ship {
 	
 	//Hecho
 	public String toString() {
-		String dibujo = " ";
+		String dibujo = name + " (" + getOrientation()+")\n ";
 		for (int i=0; i < BOUNDING_SQUARE_SIZE; i++) {
 			dibujo += "-";
 		}

@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Board {
 //HACER  ADDSHIP
-	public static char HIT_SYMBOL = '•';
-	public static char WATER_SYMBOL = ' ';
-	public static char NOTSEEN_SYMBOL = '?';
-	private static int MAX_BOARD_SIZE = 20;
-	private static int MIN_BOARD_SIZE = 5;
+	public static final char HIT_SYMBOL = '•';
+	public static final char WATER_SYMBOL = ' ';
+	public static final char NOTSEEN_SYMBOL = '?';
+	private static final int MAX_BOARD_SIZE = 20;
+	private static final int MIN_BOARD_SIZE = 5;
 	private int size;
 	private int numCrafts;
 	private int destroyedCrafts;
@@ -20,12 +20,12 @@ public class Board {
 	public Board(int size) {
 		numCrafts = 0;
 		destroyedCrafts = 0;
-		seen = null;
-		board = null;
+		/*seen = null;
+		board = null;*/
 		
 		if(size < MIN_BOARD_SIZE && size > MAX_BOARD_SIZE) {
 			this.size=MIN_BOARD_SIZE;
-			System.err.println("ERROR: Incorrect size. Setting minimum size: "+MIN_BOARD_SIZE+".");
+			System.err.println("ERROR: Board(); Tamaño incorrecto. Aplicando el tamaño mínimo: "+MIN_BOARD_SIZE+".");
 			
 		} else {
 			this.size=size;
@@ -47,20 +47,33 @@ public class Board {
 	
 	//################################################################
 	public boolean addShip(Ship ship, Coordinate c) {
-		Set <Coordinate> positions = ship.getAbsolutePositions();
+		Set <Coordinate> positions = ship.getAbsolutePositions(c);
 		
 		for(Coordinate pos : positions) {
 			
-			if(checkCoordinate(pos)) {
-				System.err.println("ERROR: Una posición del barco está fuera del tablero.");
+			if(!checkCoordinate(pos)) { //Si la coord esta fuera del tablero
+				System.err.println("ERROR: Board.addShip(); Una posición del barco está fuera del tablero.");
 				return false;
+			} else if(getShip(pos) != null){ //Si la coord ya está ocupada
+				System.err.println("Error: Board.addShip(); Una posición del barco ya está ocupada.");
+				return false;
+				
 			} else {
 				
-				board.put(c, ship);
+				for(Coordinate posVecinos : pos.adjacentCoordinates()) {
+					if(getShip(posVecinos) != null){ //Si la coord ya está ocupada
+						System.err.println("Error: Board.addShip(); Una posición al rededor del barco ya está ocupada.");
+						return false;
+					}
+				}
 				
 			}
+			
 		}
+		ship.setPosition(c);
 		
+		board.put(c, ship);
+		numCrafts ++;
 		return true;
 		
 		
@@ -71,21 +84,23 @@ public class Board {
 	 * Duelve el barco que tenga alguna posicion en la coordenada que pide
 	 */
 	public Ship getShip(Coordinate c) {
-		Set <Coordinate> TodosCoord = board.keySet(); //Copio todas las coord donde hay barco
+		if(numCrafts > 0) {
+			Set <Coordinate> TodosCoord = board.keySet(); //Copio todas las coord donde hay barco
 		
-		for(Coordinate CoordBarco : TodosCoord) { //Recorro todas las coord
-			
-			//De cada barco, copio todas sus posiciones
-			Set <Coordinate> todosPositions = board.get(CoordBarco).getAbsolutePositions();
-			
-			//Recorro todas sus posiciones
-			for( Coordinate pos : todosPositions) {
+			for(Coordinate CoordBarco : TodosCoord) { //Recorro todas las coord
 				
-				//Si alguna de esas posiciones es igual a la coordenada que preguntan
-				if(pos == c) {
+				//De cada barco, copio todas sus posiciones
+				Set <Coordinate> todosPositions = board.get(CoordBarco).getAbsolutePositions();
+				
+				//Recorro todas sus posiciones
+				for( Coordinate pos : todosPositions) {
 					
-					//Devuelvo el barco con la posicion que coincide
-					return board.get(CoordBarco);
+					//Si alguna de esas posiciones es igual a la coordenada que preguntan
+					if(pos.equals(c)) {
+						
+						//Devuelvo el barco con la posicion que coincide
+						return board.get(CoordBarco);
+					}
 				}
 			}
 		}
@@ -106,7 +121,7 @@ public class Board {
 		seen.add(c);
 		
 		if(!checkCoordinate(c)) { //Si está fuera del tablero imprime error
-			System.err.println("ERROR: Coordenada fuera del tablero.");
+			System.err.println("ERROR: Board.hit(); Coordenada fuera del tablero.");
 			return CellStatus.WATER;
 		}
 		
@@ -115,7 +130,6 @@ public class Board {
 		if(barco != null) { //Si hay algun barco
 			if(barco.hit(c)) { //Y si consigo golpearle
 				if(barco.isShotDown()) { //Y lo destruyo
-					destroyedCrafts++;
 					
 					//Añado todos sus vecinos al seen
 					Set <Coordinate> vecinosDescubiertos = getNeighborhood(barco);
@@ -123,6 +137,7 @@ public class Board {
 						seen.add(vecino);
 					}
 					//Y devuelvo destroyed
+					destroyedCrafts += 1;
 					return CellStatus.DESTROYED;
 				}
 				//O devuelvo hit si solo le ha golpeado
@@ -176,9 +191,13 @@ public class Board {
 		String tabla = "";
 		
 		for(int i = 0; i<size; i++) {
+			if(i > 0)
+				tabla += "\n";
 			for (int j = 0; j<size; j++) {
 				Coordinate coord = new Coordinate (i, j);
+				
 				if(unveil) { //Si unveil es true
+					
 					
 					Ship barco = getShip(coord);
 					

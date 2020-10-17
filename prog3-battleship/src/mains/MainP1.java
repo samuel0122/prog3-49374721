@@ -104,7 +104,8 @@ public class MainP1 {
 		ship.add(new Coordinate (1,3));
 		ship.add(new Coordinate (3,2));
 		
-	    Ship S1 = new Ship(Orientation.WEST, '3', "Pepe");
+	    Ship S1 = new Ship(Orientation.EAST, '3', "Pepe");
+	    /*
 	    System.out.println("Posicion inicial: " + S1.getPosition());
 	    System.out.println("Get name: " + S1.getName());
 	    System.out.println("Get orientation: " + S1.getOrientation());
@@ -129,12 +130,26 @@ public class MainP1 {
 		    System.out.println("Hit: " +S1.hit(new Coordinate(c1.get(0)+i, c1.get(1)+2)));
 		    System.out.println("Is hit (pos): " + S1.isHit(new Coordinate (c1.get(0)+2,c1.get(1)+2)));
 		    System.out.println("Is shot down: " + S1.isShotDown());
-		    int [][]shape = S1.getShape();
-		    Orientation orient = S1.getOrientation();
-		    System.out.println("Valor comprobado en is hit: " + shape[orient.ordinal()][S1.getShapeIndex(new Coordinate (c1.get(0)+2,c1.get(1)+2))]);
+		    //int [][]shape = S1.getShape();
+		    //Orientation orient = S1.getOrientation();
+		    //System.out.println("Valor comprobado en is hit: " + shape[orient.ordinal()][S1.getShapeIndex(new Coordinate (c1.get(0)+2,c1.get(1)+2))]);
 		    i++;
 		    System.out.println(S1);
 	    }
+	    */
+	    // /*
+	    Board tabla = new Board(8);
+	    System.out.println(tabla);
+	    tabla.addShip(S1, new Coordinate (3,3));
+	    System.out.println(tabla);
+	    System.out.println(tabla.show(false));
 	    
+	    for(int i = 0; i<tabla.getSize(); i++) {
+	    	for(int j = 0; j<tabla.getSize(); j++) {
+	    		System.out.println(tabla.hit(new Coordinate(i,j)) + "\n" + tabla + "\n" + tabla.show(true) +"\n___________");
+	    	}
+	    }
+	    System.out.println(tabla.show(false));
+	    // */
 	}
 }

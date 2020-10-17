@@ -45,7 +45,7 @@ public class Coordinate {
 															*/
 			components[component] = value;
 		} else
-			System.err.println("Error in Coordinate.set, component " + component + " is out of range");
+			System.err.println("ERROR: Coordinate.set(); el component " + component + " no está en el rango.");
 	} 
 	
 	/* Funcion get de coordenadas que recibe el componente (coordenada) deseado:
@@ -58,7 +58,7 @@ public class Coordinate {
 															*/
 			return components[component];
 		} else
-			System.err.println( "Error in Coordinate.get, component " + component + " is out of range" );
+			System.err.println( "ERROR: Coordinate.get(); el component " + component + " no está en el rango." );
 
 		return -1;
 	};
