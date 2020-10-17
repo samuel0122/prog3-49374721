@@ -92,23 +92,19 @@ public class Ship {
 		
 		return cRel;
 	}
-	//Mio
-	private boolean comprobarCoord(Coordinate c) {
-		if(c.get(0)>=0 && c.get(0)<BOUNDING_SQUARE_SIZE && c.get(1)>=0 && c.get(1)<BOUNDING_SQUARE_SIZE)
-			return true;
-		
-		return false;
-	}
 	
 	//Hecho 
 	public int getShapeIndex(Coordinate c) {
-		if(comprobarCoord(c)) 
+		if(c.get(0)>=0 && c.get(0)<BOUNDING_SQUARE_SIZE && c.get(1)>=0 && c.get(1)<BOUNDING_SQUARE_SIZE) //Comprueba que la coordenada sea correcta
 			return c.get(1)*BOUNDING_SQUARE_SIZE+c.get(0);
-		
-		return 0;
+		//######################################### QUE DEVUELVE ESTO?
+		return 2;
 	}
 	
 	//Hecho
+	/*
+	 * Devuelve todas las posiciones del barco, sean o no alcanzadas
+	 */
 	public Set<Coordinate> getAbsolutePositions(Coordinate c){
 		Set<Coordinate> positions = new HashSet<Coordinate>();
 		
@@ -130,6 +126,10 @@ public class Ship {
 	}
 	
 	//Hecho
+	/*
+	 * Recibe una coordenada del tablero (absoluta) y mira si hay una
+	 * parte no golpeada del barco ahi para darte
+	 */
 	public boolean hit (Coordinate c) {
 		
 		int pos = getShapeIndex(getRelativePosition(c));
@@ -155,6 +155,9 @@ public class Ship {
 	}
 	
 	//Hecho
+	/*
+	 * Recibe coordenda del tablero (absoluta) y mira si una parte del barco está ahi
+	 */
 	public boolean isHit(Coordinate c) {
 		
 		int pos = getShapeIndex(getRelativePosition(c));
@@ -192,7 +195,6 @@ public class Ship {
 			dibujo += "-";
 		}
 		
-		dibujo += "\n";
 		return dibujo;
 	}
 	
