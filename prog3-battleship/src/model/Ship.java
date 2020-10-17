@@ -4,9 +4,9 @@ import java.util.*;
 
 public class Ship {
 	
-	private int BOUNDING_SQUARE_SIZE = 5;
-	private int HIT_VALUE = -1;
-	private int CRAFT_VALUE = 1;
+	private static int BOUNDING_SQUARE_SIZE = 5;
+	private static int HIT_VALUE = -1;
+	private static int CRAFT_VALUE = 1;
 	
 	private Orientation orientation; //North, East...
 	private char symbol; //Caracter que representa al barco
@@ -46,15 +46,15 @@ public class Ship {
 		orientation = o;
 		symbol = s;
 		name = n;
+		position = null;
 	}
 	
 	/*
 	 * Devuelve copia defensiva de la posicion del barco o null si no se ha asignado
 	 */
-	//####################################################33
+	//Hecho
 	public Coordinate getPosition() {
-		
-		if(position.hashCode()!=0) {
+		if(position!=null) {
 			Coordinate pos = position.copy();
 			return pos;
 		}
@@ -87,6 +87,11 @@ public class Ship {
 		return shape;
 	}
 	
+	private Coordinate getRelativePosition (Coordinate c) {
+		Coordinate cRel = new Coordinate (c.get(0) - position.get(0), c.get(1) - position.get(1));
+		
+		return cRel;
+	}
 	//Mio
 	private boolean comprobarCoord(Coordinate c) {
 		if(c.get(0)>=0 && c.get(0)<BOUNDING_SQUARE_SIZE && c.get(1)>=0 && c.get(1)<BOUNDING_SQUARE_SIZE)
@@ -103,12 +108,16 @@ public class Ship {
 		return 0;
 	}
 	
-	//################################ FALTA AÑADIR SI ES UNA CASILLA CHOCADA
+	//Hecho
 	public Set<Coordinate> getAbsolutePositions(Coordinate c){
 		Set<Coordinate> positions = new HashSet<Coordinate>();
+		
 		for(int i=0; i < BOUNDING_SQUARE_SIZE*BOUNDING_SQUARE_SIZE ; i++) { //Recorre todos los valores de shape
-			if(shape[orientation.ordinal()][i]==CRAFT_VALUE || shape[orientation.ordinal()][i]==HIT_VALUE) { //Si una coordenada tiene el valor de barco, lo guarda
-				positions.add(new Coordinate(c.get(0)+i/BOUNDING_SQUARE_SIZE, c.get(1)+i%BOUNDING_SQUARE_SIZE));
+			
+			if(shape[orientation.ordinal()][i] == CRAFT_VALUE || shape[orientation.ordinal()][i]==HIT_VALUE) { //Si una coordenada tiene el valor de barco, lo guarda
+				int coordX = c.get(0) + i/BOUNDING_SQUARE_SIZE;
+				int coordY = c.get(1) + i%BOUNDING_SQUARE_SIZE;
+				positions.add(new Coordinate(coordX, coordY));
 			}
 		}
 		
@@ -120,24 +129,71 @@ public class Ship {
 		return getAbsolutePositions(position);
 	}
 	
-	//Creo que esta hecho
+	//Hecho
+	public boolean hit (Coordinate c) {
+		
+		int pos = getShapeIndex(getRelativePosition(c));
+		if(shape[orientation.ordinal()][pos] == CRAFT_VALUE) {
+			shape[orientation.ordinal()][pos] = HIT_VALUE;
+			return true;
+		}
+		return false;
+		
+	}
+	
+	//Hecho
 	public boolean isShotDown() {
-		if(getAbsolutePositions(position).isEmpty())
-			return true;
-		return false;
+		
+		for(int i=0; i < BOUNDING_SQUARE_SIZE*BOUNDING_SQUARE_SIZE ; i++) { //Recorre todos los valores de shape
+			
+			if(shape[orientation.ordinal()][i] == CRAFT_VALUE) { //Si una coordenada tiene el valor de barco, aun no ha caido
+				return false;
+			}
+		}
+		return true;
+		
 	}
 	
-	//Creo que esta hecho
+	//Hecho
 	public boolean isHit(Coordinate c) {
-		int i = getShapeIndex(c);
-		if(shape[orientation.ordinal()][i]==HIT_VALUE)
+		
+		int pos = getShapeIndex(getRelativePosition(c));
+		if(shape[orientation.ordinal()][pos] == HIT_VALUE)
 			return true;
 		return false;
 	}
 	
-	
+	//Hecho
 	public String toString() {
-		return null;
+		String dibujo = " ";
+		for (int i=0; i < BOUNDING_SQUARE_SIZE; i++) {
+			dibujo += "-";
+		}
+		
+		dibujo += "\n";
+		for(int i=0; i < BOUNDING_SQUARE_SIZE; i++) {
+			dibujo += "|";
+			for(int j=0; j < BOUNDING_SQUARE_SIZE; j++) {
+				if(shape[orientation.ordinal()][i*BOUNDING_SQUARE_SIZE+j] == CRAFT_VALUE) {
+					dibujo += symbol;
+				} else if (shape[orientation.ordinal()][i*BOUNDING_SQUARE_SIZE+j] == HIT_VALUE) {
+					dibujo += Board.HIT_SYMBOL;
+				} else {
+					dibujo += Board.WATER_SYMBOL;
+				}
+				
+			}
+			dibujo += "|\n";
+		}
+		
+		dibujo += " ";
+		
+		for (int i=0; i < BOUNDING_SQUARE_SIZE; i++) {
+			dibujo += "-";
+		}
+		
+		dibujo += "\n";
+		return dibujo;
 	}
 	
 }

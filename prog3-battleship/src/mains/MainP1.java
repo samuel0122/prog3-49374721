@@ -1,6 +1,7 @@
 package mains;
 
-import java.util.ArrayList;
+
+import java.util.*;
 
 import model.*;
 
@@ -12,7 +13,7 @@ public class MainP1 {
 		
 		//Creamos coordenadas
 		
-        Coordinate c1 = new Coordinate(0,0);
+        /*Coordinate c1 = new Coordinate(0,0);
 	    Coordinate c2 = new Coordinate(10,10);
 	    Coordinate c3 = new Coordinate(4,3);
 	    Coordinate c4 = new Coordinate(5,15);
@@ -92,10 +93,48 @@ public class MainP1 {
 	                System.out.println(v2.get(i));
 	    }
 	    System.out.println("Adyacentes de "+c1+" :");
-	    System.out.println(c1.adjacentCoordinates());
+	    System.out.println(c1.adjacentCoordinates());*/
 	   /* CellStatus c = CellStatus.WATER;
 	    System.out.println(c);
 	    Orientation o = Orientation.NORTH;
 	    System.out.println(o);*/
+		Set <Coordinate> ship = new HashSet <Coordinate>() ;
+		ship.add(new Coordinate (0,0));
+		ship.add(new Coordinate (6,3));
+		ship.add(new Coordinate (1,3));
+		ship.add(new Coordinate (3,2));
+		
+	    Ship S1 = new Ship(Orientation.WEST, '3', "Pepe");
+	    System.out.println("Posicion inicial: " + S1.getPosition());
+	    System.out.println("Get name: " + S1.getName());
+	    System.out.println("Get orientation: " + S1.getOrientation());
+	    System.out.println("Get symbol: " + S1.getSymbol());
+	    int i = 1;
+	    for(Coordinate c1 : ship) {
+	    	
+	    	System.out.println("Ship number : " + i);
+	    	
+	    	S1.setPosition(c1);
+	    	
+		    //System.out.println("Get shape: " + S1.getShape());
+		    System.out.println("Coordenada: " + c1);
+		    System.out.println("Get shape index: " + S1.getShapeIndex(c1));
+		    System.out.println("Get shape index + 2: " + S1.getShapeIndex(new Coordinate (c1.get(0) + 2, c1.get(1) + 2)));
+		    System.out.println("Get position: " + S1.getPosition());
+		    System.out.println("Get absoulte positions: " + S1.getAbsolutePositions());
+		    System.out.println("Get absoulte positions (4,5): " + S1.getAbsolutePositions(new Coordinate (4,5)));
+		    System.out.println("Get absoulte positions + 2: " + S1.getAbsolutePositions(new Coordinate (c1.get(0)+2, c1.get(1)+2)));
+		    System.out.println("Is hit (prev): " + S1.isHit(new Coordinate ( c1.get(0)+2, c1.get(1)+2)));
+		    System.out.println(S1);
+		    System.out.println("Hit: " +S1.hit(new Coordinate(c1.get(0)+i, c1.get(1)+2)));
+		    System.out.println("Is hit (pos): " + S1.isHit(new Coordinate (c1.get(0)+2,c1.get(1)+2)));
+		    System.out.println("Is shot down: " + S1.isShotDown());
+		    int [][]shape = S1.getShape();
+		    Orientation orient = S1.getOrientation();
+		    System.out.println("Valor comprobado en is hit: " + shape[orient.ordinal()][S1.getShapeIndex(new Coordinate (c1.get(0)+2,c1.get(1)+2))]);
+		    i++;
+		    System.out.println(S1);
+	    }
+	    
 	}
 }

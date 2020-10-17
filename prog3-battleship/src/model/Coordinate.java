@@ -88,19 +88,6 @@ public class Coordinate {
 		return coord;
 	}
 	
-	/* Funcion suma de coordenadas que recibe un Coordinate c y lo suma al llamado:
-	 * Devuelve el resultado en forma de Coordinate
-	 */
-	
-	
-	public Coordinate add(Coordinate c) {
-		Coordinate cd = new Coordinate(0,0); //Crea un Coordinate nuevo para no modificar los ya existentes en la suma
-		
-		for(int i=0; i<components.length; i++) { //Suma los componentes de ambas coordenadas en la nueva
-			cd.set(i, c.get(i)+get(i));
-		}
-		return cd; //Devuelve la coordenada nueva con el resultado guardado
-	};
 	
 	/* Funcion resta de coordenadas que recibe un Coordinate c y lo resta al llamado 
 	 * Devuelve el resultado en forma de Coordinates
@@ -114,6 +101,21 @@ public class Coordinate {
 		
 		return cd; //Devuelve el resultado de la resta
 	};
+	
+	
+	/* Funcion suma de coordenadas que recibe un Coordinate c y lo suma al llamado:
+	 * Devuelve el resultado en forma de Coordinate
+	 */
+	
+	public Coordinate add(Coordinate c) {
+		Coordinate cd = new Coordinate(0,0); //Crea un Coordinate nuevo para no modificar los ya existentes en la suma
+		
+		for(int i=0; i<components.length; i++) { //Suma los componentes de ambas coordenadas en la nueva
+			cd.set(i, c.get(i)+get(i));
+		}
+		return cd; //Devuelve la coordenada nueva con el resultado guardado
+	};
+
 	
 	/* 
 	 * Funcion toString que devuelve un String con las coordenadas en un formato correcto
