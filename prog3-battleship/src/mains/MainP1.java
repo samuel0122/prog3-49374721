@@ -4,6 +4,7 @@ package mains;
 import java.util.*;
 
 import model.*;
+import model.ship.Board2D;
 
 public class MainP1 {
 	
@@ -138,18 +139,23 @@ public class MainP1 {
 	    }
 	    */
 	    // /*
-	    Board tabla = new Board(8);
+	    Board2D tabla = new Board2D(8);
 	    System.out.println(tabla);
-	    tabla.addShip(S1, new Coordinate (3,3));
+	    tabla.addCraft(S1, new Coordinate (3,3));
 	    System.out.println(tabla);
 	    System.out.println(tabla.show(false));
 	    
 	    for(int i = 0; i<tabla.getSize(); i++) {
 	    	for(int j = 0; j<tabla.getSize(); j++) {
-	    		System.out.println(tabla.hit(new Coordinate(i,j)) + "\n" + tabla + "\n" + tabla.show(true) +"\n___________");
+	    		System.out.println(tabla.hit(new Coordinate(i,j)) + "\n" + tabla + "\n" + tabla.show(false) +"\n___________");
 	    	}
 	    }
+	    tabla.hit(new Coordinate(2,2));
 	    System.out.println(tabla.show(false));
+	    
+	    Craft S2 = new Ship (Orientation.NORTH, 'r', "JOse");
+	    System.out.println(S2.getAbsolutePositions());
+	    tabla.getNeighborhood(S2);
 	    // */
 	}
 }

@@ -1,172 +1,237 @@
 package model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
-public class Board {
-//HACER  ADDSHIP
+import model.exceptions.*;
+
+public abstract class Board {
+
+	/** The Constant HIT_SYMBOL. */
 	public static final char HIT_SYMBOL = '•';
+	/** The Constant WATER_SYMBOL. */
 	public static final char WATER_SYMBOL = ' ';
+	/** The Constant NOTSEEN_SYMBOL. */
 	public static final char NOTSEEN_SYMBOL = '?';
-	private static final int MAX_BOARD_SIZE = 20;
-	private static final int MIN_BOARD_SIZE = 5;
+	/** The Constant MAX_BOARD_SIZE. */
+	protected static final int MAX_BOARD_SIZE = 20;
+	/** The Constant MIN_BOARD_SIZE. */
+	protected static final int MIN_BOARD_SIZE = 5;
+	
+	public static final char BOARD_SEPARATOR = '|';
+	
+	/** The size. */
 	private int size;
+	/** The num crafts. */
 	private int numCrafts;
+	/** The destroyed crafts. */
 	private int destroyedCrafts;
+	/** The seen. */
+	private Set<Coordinate> seen = new HashSet<Coordinate>();
+	/** The board. */
+	private Map<Coordinate, Craft> board;
 	
-	private Set<Coordinate> seen = new HashSet<Coordinate>(); //Coordenadas que el otro ha visto
-	private Map<Coordinate, Ship> board = new HashMap<Coordinate, Ship>();
-	
-	//Hecho
 	public Board(int size) {
 		numCrafts = 0;
 		destroyedCrafts = 0;
-		/*seen = null;
-		board = null;*/
 		
-		if(size < MIN_BOARD_SIZE && size > MAX_BOARD_SIZE) {
+		
+		if(size < MIN_BOARD_SIZE || size > MAX_BOARD_SIZE) {
 			this.size=MIN_BOARD_SIZE;
-			System.err.println("ERROR: Board(); Tamaño incorrecto. Aplicando el tamaño mínimo: "+MIN_BOARD_SIZE+".");
+			throw new IllegalArgumentException();
 			
 		} else {
 			this.size=size;
 		}
+	}
 
-	}
+	/**
+	 * Gets the size.
+	 *
+	 * @return the size
+	 */
+	public int getSize() { return size; }
+
+	public abstract boolean checkCoordinate(Coordinate c);
 	
-	//Hecho
-	public int getSize() {
-		return size;
-	}
+	public abstract String show (boolean unveil);
 	
-	//Hecho
-	public boolean checkCoordinate(Coordinate c) {
-		if(c.get(0)<size && c.get(0)>=0 && c.get(1)<size && c.get(1)>=0)
-			return true;
-		return false;
-	}
+	/**
+	 * Barco que ocupa. Método protected añadido que recibe una coordenada y devuelve el barco
+	 * que tenga alguna posicion en esa coordenada, o nulo si no hay ningun barco ocupando ese espacio
+	 *
+	 * @param c the c
+	 * @return the ship
+	 */
 	
-	//################################################################
-	public boolean addShip(Ship ship, Coordinate c) {
-		Set <Coordinate> positions = ship.getAbsolutePositions(c);
+	protected Craft barcoQueOcupa(Coordinate c) {
+		if(numCrafts > 0) {
+			Set <Coordinate> TodosCoord = board.keySet(); 
+		
+			for(Coordinate CoordBarco : TodosCoord) { //Recorro todas las coord en donde hay asociado un ship
+				
+				Craft nave = board.get(CoordBarco);
+				//De cada ship, copio todas sus posiciones ocupadas
+				Set <Coordinate> todosPositions = nave.getAbsolutePositions();
+				
+				
+				for( Coordinate pos : todosPositions) {
+					
+					//Si alguna de esas posiciones es igual a la coordenada que preguntan devuelvo el ship
+					if(pos.equals(c)) {
+	
+						return nave;
+					}
+				}
+			}
+		}
+		
+		return null; //Si no hubo ningun ship que ocupa esa coordenada, devuelvo null
+	}
+
+	/**
+	 * Adds the ship.
+	 *
+	 * @param ship the ship
+	 * @param coordinate the c
+	 * @return true, if successful
+	 * @throws InvalidCoordinateException 
+	 * @throws OccupiedCoordinateException 
+	 * @throws NextToAnotherCraftException 
+	 */
+	public boolean addCraft(Craft craft, Coordinate c) throws BattleshipException {
+		Set <Coordinate> positions = craft.getAbsolutePositions(c);
 		
 		for(Coordinate pos : positions) {
 			
-			if(!checkCoordinate(pos)) { //Si la coord esta fuera del tablero
-				System.err.println("ERROR: Board.addShip(); Una posición del barco está fuera del tablero.");
-				return false;
-			} else if(getShip(pos) != null){ //Si la coord ya está ocupada
-				System.err.println("Error: Board.addShip(); Una posición del barco ya está ocupada.");
-				return false;
+			if(!checkCoordinate(pos)) { //Si la coord esta fuera del tablero manda su mensaje de error y no guarda
+				throw new InvalidCoordinateException(pos);
+			
+			} else if(barcoQueOcupa(pos) != null){ //Si una posicion ya está ocupada manda mensaje de error y no guarda
+				throw new OccupiedCoordinateException(pos);
 				
-			} else {
+			} else { 
 				
 				for(Coordinate posVecinos : pos.adjacentCoordinates()) {
-					if(getShip(posVecinos) != null){ //Si la coord ya está ocupada
-						System.err.println("Error: Board.addShip(); Una posición al rededor del barco ya está ocupada.");
-						return false;
+					if(barcoQueOcupa(posVecinos) != null){ //Si una coord vecina a su posicion está ocupada manda error de vecino y no guarda
+						throw new NextToAnotherCraftException(posVecinos);
 					}
 				}
 				
 			}
 			
 		}
-		ship.setPosition(c);
+
+		//Si no ha habido ningun problema, se añade la posicion al ship, este al tablero y se incrementa en 1 el numCrafts
 		
-		board.put(c, ship);
+		craft.setPosition(c);
+		System.out.println(c);
+
+		System.out.println(craft);
+		board.put(c, craft);
 		numCrafts ++;
 		return true;
 		
-		
 	}
-	
-	//Hecho 
-	/*
-	 * Duelve el barco que tenga alguna posicion en la coordenada que pide
+
+	/**
+	 * Gets the ship.
+	 *
+	 * @param c the c
+	 * @return the ship
 	 */
-	public Ship getShip(Coordinate c) {
-		if(numCrafts > 0) {
-			Set <Coordinate> TodosCoord = board.keySet(); //Copio todas las coord donde hay barco
-		
-			for(Coordinate CoordBarco : TodosCoord) { //Recorro todas las coord
-				
-				//De cada barco, copio todas sus posiciones
-				Set <Coordinate> todosPositions = board.get(CoordBarco).getAbsolutePositions();
-				
-				//Recorro todas sus posiciones
-				for( Coordinate pos : todosPositions) {
-					
-					//Si alguna de esas posiciones es igual a la coordenada que preguntan
-					if(pos.equals(c)) {
-						
-						//Devuelvo el barco con la posicion que coincide
-						return board.get(CoordBarco);
-					}
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	//Hecho
+	public Craft getCraft(Coordinate c) { return board.get(c); }
+
+	/**
+	 * Checks if is seen. Devuelve true si la coordenada pasada ya es conocida por el rival o false
+	 * si no lo es
+	 *
+	 * @param c the c
+	 * @return true, if is seen
+	 */
 	public boolean isSeen(Coordinate c) {
 		if(seen != null && seen.contains(c)) {
 			return true;
 		}
 		return false;
 	}
-	
-	//Hecho
-	public CellStatus hit (Coordinate c) {
+
+	/**
+	 * Hit. Simula un disparo. Añade la coordenada a la lista seen para que el rival
+	 * lo pueda ver y devuelve lo que ocurre en esa coordenada, si cae en agua, si golpea a un ship o si
+	 * destruye un ship con ello
+	 *
+	 * @param c the c
+	 * @return the cell status
+	 * @throws CoordinateAlreadyHitException 
+	 * @throws InvalidCoordinateException 
+	 */
+	public CellStatus hit (Coordinate c) throws CoordinateAlreadyHitException, InvalidCoordinateException {
 		seen.add(c);
 		
-		if(!checkCoordinate(c)) { //Si está fuera del tablero imprime error
-			System.err.println("ERROR: Board.hit(); Coordenada fuera del tablero.");
-			return CellStatus.WATER;
+		if(!checkCoordinate(c)) { //Si el disparo se va fuera del tablero imprime error
+			throw new InvalidCoordinateException(c);
 		}
 		
-		Ship barco = getShip(c); //Cojo el barco que tiene esa coordenada
+		Craft barco = barcoQueOcupa(c); 
 		
-		if(barco != null) { //Si hay algun barco
-			if(barco.hit(c)) { //Y si consigo golpearle
-				if(barco.isShotDown()) { //Y lo destruyo
+		if(barco != null) { //Si hay algun ship en la coordenada en donde dispara
+			if(barco.hit(c)) { //Y si consige golpearle
+				if(barco.isShotDown()) { //Y lo destruye
 					
-					//Añado todos sus vecinos al seen
+					//Añado todos sus vecinos al seen y devuelve destroyed
 					Set <Coordinate> vecinosDescubiertos = getNeighborhood(barco);
 					for(Coordinate vecino:vecinosDescubiertos) {
 						seen.add(vecino);
 					}
-					//Y devuelvo destroyed
+					
 					destroyedCrafts += 1;
 					return CellStatus.DESTROYED;
 				}
-				//O devuelvo hit si solo le ha golpeado
+				//O devuelve hit si solo ha golpeado el ship
 				return CellStatus.HIT;
 			}
 		}
 		
-		//Si no habia barco manda WATER
+		//O si no habia un ship devuelve WATER
 		return CellStatus.WATER;
-
-	}
 	
-	//Hecho
-	public boolean areAllCraftDestroyed() {
+	}
+
+	/**
+	 * Are all craft destroyed. Devuelve true si todos los ships del tablero 
+	 * fueron destruidos o false aun hay barcos con alguna posicion sin golpear
+	 *
+	 * @return true, if successful
+	 */
+	public boolean areAllCraftsDestroyed() {
 		if(destroyedCrafts == numCrafts)
 			return true;
 		return false;
 	}
-	
-	//Hecho
-	public Set<Coordinate> getNeighborhood(Ship ship, Coordinate position){
+
+	/**
+	 * Gets the neighborhood. Devuelve una lista con todas 
+	 * las coordenadas que envolverian a las posiciones del ship si lo colocara ahí.
+	 * Las posiciones propias del ship no se añaden
+	 *
+	 * @param ship the ship
+	 * @param position the position
+	 * @return the neighborhood
+	 */
+	public Set<Coordinate> getNeighborhood(Craft ship, Coordinate position) {
+		Objects.requireNonNull(position);
+		Objects.requireNonNull(ship);
 		Set<Coordinate> neighbors = new HashSet <Coordinate>();
 		
 		//Por cada coord del barco
 		for(Coordinate posBarco : ship.getAbsolutePositions(position)) {
 			
-			//Añadir las coordenadas adyacentes
+			//Añadir las coordenadas adyacentes si esa coordenada no se sale del tablero
 			for(Coordinate coordAdyacentes : posBarco.adjacentCoordinates()) {
-				//Si esa coordenada no se sale del tablero
+				
 				if(checkCoordinate(coordAdyacentes)) {
 					neighbors.add(coordAdyacentes);
 				}
@@ -180,66 +245,21 @@ public class Board {
 		
 		return neighbors;
 	}
-	
-	//Hecho
-	public Set<Coordinate> getNeighborhood(Ship ship){
-		return getNeighborhood(ship, ship.getPosition());
-	}
-	
-	//################################################################
-	public String show(boolean unveil) {
-		String tabla = "";
-		
-		for(int i = 0; i<size; i++) {
-			if(i > 0)
-				tabla += "\n";
-			for (int j = 0; j<size; j++) {
-				Coordinate coord = new Coordinate (i, j);
-				
-				if(unveil) { //Si unveil es true
-					
-					
-					Ship barco = getShip(coord);
-					
-					if(barco == null) { //Si no hay barco 
-						tabla += WATER_SYMBOL;
-					} else {
-						if(barco.isHit(coord)) { //Si la coord está golpeada
-							tabla += HIT_SYMBOL;
-						} else { //Si la coordenada no está golpeada
-							tabla += barco.getSymbol();
-						}
-					}
-					
-				} else { //Si unveil es false
-					
-					
-					if( seen.contains(coord) ) { //Si la coordenada fue vista
-						Ship barco = getShip(coord);
-						
-						if(barco == null) { //Si no hay un barco
-							tabla += WATER_SYMBOL;
-						} else {
-							if(barco.isShotDown()) { //Si el barco está destruido
-								tabla += barco.getSymbol();
-							} else { //Si el barco no está destruido
-								tabla += HIT_SYMBOL;
-							}
-						}
-					} else { //Si la coordenada no fue vista
-						tabla += NOTSEEN_SYMBOL;
-					}
-					
-				}
-			}
-		}
-		return tabla;
-	}
-	
-	//Hecho
-	public String toString() {
-		String info = "Board " + size + "; crafts: "+ numCrafts +"; destroyed: " + destroyedCrafts;
-		return info;
-	}
-		
+
+	/**
+	 * Gets the neighborhood. Método simplificado de getNeighborhood que recibe un ship y llama a la otra funcion
+	 * getNeighborhood pasandole la posicion del ship.
+	 *
+	 * @param ship the ship
+	 * @return the neighborhood
+	 */
+	public Set<Coordinate> getNeighborhood(Craft ship) { return getNeighborhood(ship, ship.getPosition()); }
+
+	/**
+	 * To string. Devuelve un string con la información básica del tablero
+	 *
+	 * @return the string
+	 */
+	public String toString() { return "Board " + size + "; crafts: "+ numCrafts +"; destroyed: " + destroyedCrafts; }
+
 }
