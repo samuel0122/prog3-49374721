@@ -57,7 +57,7 @@ public abstract class Coordinate {
 	 * Funcion setter de coordenadas que recibe el componente (coordenada) y el valor:
 	 * Establece la coordenada que se le pase al valor que se le diga, comprobando que la coordenada existe
 	 */
-	protected void set(int component,int value) {
+	public void set(int component,int value) {
 		if (component>=0 && component<components.length) { /* Utiliza un if que comprueba que la componente sea valida											*/
 			components[component] = value;
 		} else

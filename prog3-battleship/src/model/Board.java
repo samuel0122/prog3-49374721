@@ -1,9 +1,6 @@
 package model;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import model.exceptions.*;
 
@@ -31,7 +28,7 @@ public abstract class Board {
 	/** The seen. */
 	private Set<Coordinate> seen = new HashSet<Coordinate>();
 	/** The board. */
-	private Map<Coordinate, Craft> board;
+	private Map<Coordinate, Craft> board = new HashMap<Coordinate ,Craft>();
 	
 	public Board(int size) {
 		numCrafts = 0;
@@ -59,14 +56,14 @@ public abstract class Board {
 	public abstract String show (boolean unveil);
 	
 	/**
-	 * Barco que ocupa. Método protected añadido que recibe una coordenada y devuelve el barco
+	 * Get Craft. Método que recibe una coordenada y devuelve el barco
 	 * que tenga alguna posicion en esa coordenada, o nulo si no hay ningun barco ocupando ese espacio
 	 *
 	 * @param c the c
 	 * @return the ship
 	 */
 	
-	protected Craft barcoQueOcupa(Coordinate c) {
+	public Craft getCraft(Coordinate c) {
 		if(numCrafts > 0) {
 			Set <Coordinate> TodosCoord = board.keySet(); 
 		
@@ -109,13 +106,13 @@ public abstract class Board {
 			if(!checkCoordinate(pos)) { //Si la coord esta fuera del tablero manda su mensaje de error y no guarda
 				throw new InvalidCoordinateException(pos);
 			
-			} else if(barcoQueOcupa(pos) != null){ //Si una posicion ya está ocupada manda mensaje de error y no guarda
+			} else if(getCraft(pos) != null){ //Si una posicion ya está ocupada manda mensaje de error y no guarda
 				throw new OccupiedCoordinateException(pos);
 				
 			} else { 
 				
 				for(Coordinate posVecinos : pos.adjacentCoordinates()) {
-					if(barcoQueOcupa(posVecinos) != null){ //Si una coord vecina a su posicion está ocupada manda error de vecino y no guarda
+					if(getCraft(posVecinos) != null){ //Si una coord vecina a su posicion está ocupada manda error de vecino y no guarda
 						throw new NextToAnotherCraftException(posVecinos);
 					}
 				}
@@ -127,23 +124,15 @@ public abstract class Board {
 		//Si no ha habido ningun problema, se añade la posicion al ship, este al tablero y se incrementa en 1 el numCrafts
 		
 		craft.setPosition(c);
-		System.out.println(c);
-
-		System.out.println(craft);
+		
+		
 		board.put(c, craft);
 		numCrafts ++;
 		return true;
 		
 	}
 
-	/**
-	 * Gets the ship.
-	 *
-	 * @param c the c
-	 * @return the ship
-	 */
-	public Craft getCraft(Coordinate c) { return board.get(c); }
-
+	
 	/**
 	 * Checks if is seen. Devuelve true si la coordenada pasada ya es conocida por el rival o false
 	 * si no lo es
@@ -169,13 +158,13 @@ public abstract class Board {
 	 * @throws InvalidCoordinateException 
 	 */
 	public CellStatus hit (Coordinate c) throws CoordinateAlreadyHitException, InvalidCoordinateException {
-		seen.add(c);
+		seen.add(c.copy());
 		
 		if(!checkCoordinate(c)) { //Si el disparo se va fuera del tablero imprime error
 			throw new InvalidCoordinateException(c);
 		}
 		
-		Craft barco = barcoQueOcupa(c); 
+		Craft barco = getCraft(c); 
 		
 		if(barco != null) { //Si hay algun ship en la coordenada en donde dispara
 			if(barco.hit(c)) { //Y si consige golpearle

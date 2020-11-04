@@ -32,7 +32,7 @@ public class Board3D extends model.ship.Board2D {
 					if(unveil) { //Si unveil es true devuelve vista de tablero propio
 						
 						
-						Craft barco = barcoQueOcupa(coord);
+						Craft barco = getCraft(coord);
 						
 						if(barco == null) { //Si no hay barco coloca el simbolo de WATER
 							tabla += WATER_SYMBOL;
@@ -48,7 +48,7 @@ public class Board3D extends model.ship.Board2D {
 						
 						
 						if( this.isSeen(coord) ) { //Si la coordenada es conocida
-							Craft barco = barcoQueOcupa(coord);
+							Craft barco = getCraft(coord);
 							
 							if(barco == null) { //Si la coordenada es conocida y no hay ship coloca WATER
 								tabla += WATER_SYMBOL;

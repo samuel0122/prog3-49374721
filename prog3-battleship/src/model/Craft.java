@@ -156,8 +156,9 @@ public abstract class Craft {
 			shape[orientation.ordinal()][pos] = HIT_VALUE;
 			return true;
 			
-		} else 
+		} else if(shape[orientation.ordinal()][pos] == HIT_VALUE)
 			throw new CoordinateAlreadyHitException(c);
+		return false;
 		
 	}
 
