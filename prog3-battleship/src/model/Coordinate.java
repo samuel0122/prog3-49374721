@@ -1,5 +1,6 @@
-/*
- * @author Samuel Oliva Bulpitt, 49374721
+/**
+  	@author Samuel Oliva Bulpitt
+ 
  */
 
 
@@ -9,33 +10,31 @@ import java.util.*;
 
 import model.ship.Coordinate2D;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Coordinate.
+ * Clase Coordinate.
  */
 public abstract class Coordinate {
 	
-	/** The components. */
+	/** Array int components. Componentes de Coordinate. */
 	private int[] components; //Componentes de una coordenada
 	
 	
-	/* 
-	 * Constructor de la clase que recibe dos enteros para la coordenada:
-	 * Almacenamos la coordenada 'x' en el componente 0 y la 'y' en el 1
+	/**
+	 * Constructor de la clase que inicializa el Coordinate con el tamaño pasado por parametro.
+	 *
+	 * @param dim the dim
 	 */
+	
 	protected Coordinate(int dim){
 		components= new int[dim];
 	}
 	
 	
 	/**
-	 * Instantiates a new coordinate.
+	 * Constructor de copia de Coordinate.
 	 *
 	 * @param c the c
-	 */
-	/* 
-	 * Copia de una coordenada que recibe un objeto coordenada:
-	 * almacena en el components del Coordinate que llama a la funcion los valores del Coordinate c
 	 */
 	protected Coordinate(Coordinate c){
 		
@@ -48,15 +47,13 @@ public abstract class Coordinate {
 		
 	
 	/**
-	 * Sets the coordinate. Comprueba que la coordenada sea posible.
+	 * Setter de coordinate. Comprueba que el componente es correcto.
 	 *
 	 * @param component the component
 	 * @param value the value
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	/* 
-	 * Funcion setter de coordenadas que recibe el componente (coordenada) y el valor:
-	 * Establece la coordenada que se le pase al valor que se le diga, comprobando que la coordenada existe
-	 */
+	
 	protected void set(int component,int value) {
 		if (component>=0 && component<components.length) { /* Utiliza un if que comprueba que la componente sea valida											*/
 			components[component] = value;
@@ -66,14 +63,13 @@ public abstract class Coordinate {
 	
 	
 	/**
-	 * Gets the coordinates. 
+	 * Getter de coordinates. Coge el valor del componente deseado.
 	 *
 	 * @param component the component
-	 * @return the int
+	 * @return Int valor del componente
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	/* Funcion getter de coordenadas que recibe el componente (coordenada) deseado:
-	 * Devuelve el valor de la coordenada que se desea en entero
-	 */
+	
 	public int get(int component) {
 		if (component>=0 && component<components.length) { /* Comprueba si la coordenada es correcta											*/
 			return components[component];
@@ -84,42 +80,33 @@ public abstract class Coordinate {
 
 	
 	/**
-	 * Adjacent coordinates. Devuelve una lista con las coordenadas adyacentes (vecinas) a
-	 * la coordenada que invoca la funcion.
+	 * Metodo abstracto de adjacentCoordinates. Devolvera las coordenadas vecinas, pero se debe implementar en las subclases de Coordinate.
 	 *
 	 * @return the sets the
 	 */
-	/*
-	 * Método adjacentCoordinates que devuelve una lista con las coordenadas adyacentes (vecinas) a
-	 * la coordenada que invoca la funcion
-	 */
+
 	public abstract Set<Coordinate> adjacentCoordinates();
 	
-	/*
-	 * Método copy() que devuelve una copia defensiva de las coordenadas que invoca la funcion
-	 */
+	
 	
 	/**
-	 * Copies the coordinate.
+	 * Metodo abstracto de copia del coordinate. Devolvera una copia del coordenate que lo invocao, pero de sebe implementar en las subclases de Coordinate.
+	 *
+	 * @return the coordinate
 	 */
 	public abstract Coordinate copy();
 	
-	
-	/* 
-	 * Funcion resta de coordenadas que recibe un Coordinate c y lo resta al Coordinate que invoca la funcion 
-	 * Devuelve el resultado en forma de Coordinates
-	 */
 	
 	/**
 	 * Subtract. Resta de coordenadas que recibe un Coordinate c y lo resta al Coordinate que invoca la funcion 
 	 * Devuelve el resultado en forma de Coordinates
 	 *
 	 * @param c the c
-	 * @return the coordinate
+	 * @return Coordinate resta
 	 */
 	public Coordinate subtract(Coordinate c) {
 		Objects.requireNonNull(c);
-		Coordinate cd = this.copy(); //Crea un Coordinate nuevo para no modificar los ya existentes en la suma
+		Coordinate resta = this.copy(); //Crea un Coordinate nuevo para no modificar los ya existentes en la suma
 		int limit;
 		//Si alguno es 2D recorre 2 componentes
 		if(c instanceof Coordinate2D || this instanceof Coordinate2D) {
@@ -128,26 +115,22 @@ public abstract class Coordinate {
 			limit=3;
 		
 		for(int i=0; i<limit; i++) { //Suma los componentes de ambas coordenadas en la nueva
-			cd.set(i, this.get(i)-c.get(i));
+			resta.set(i, this.get(i)-c.get(i));
 		}
-		return cd;  
+		return resta;  
 	};
 	
-	
-	/* Funcion suma de coordenadas que recibe un Coordinate c y lo suma al Coordinate que invoca la funcion:
-	 * Devuelve el resultado en forma de Coordinate
-	 */
 	
 	/**
 	 * Adds. Suma de coordenadas que recibe un Coordinate c y lo suma al Coordinate que invoca la funcion:
 	 * Devuelve el resultado en forma de Coordinate
 	 *
 	 * @param c the c
-	 * @return the coordinate
+	 * @return Coordinate suma
 	 */
 	public Coordinate add(Coordinate c) {
 		Objects.requireNonNull(c);
-		Coordinate cd = this.copy(); //Crea un Coordinate nuevo para no modificar los ya existentes en la suma
+		Coordinate suma = this.copy(); //Crea un Coordinate nuevo para no modificar los ya existentes en la suma
 		int limit;
 		//Si alguno es 2D recorre 2 componentes
 		if(c instanceof Coordinate2D || this instanceof Coordinate2D) {
@@ -156,23 +139,15 @@ public abstract class Coordinate {
 			limit=3;
 		
 		for(int i=0; i<limit; i++) { //Suma los componentes de ambas coordenadas en la nueva
-			cd.set(i, this.get(i)+c.get(i));
+			suma.set(i, this.get(i)+c.get(i));
 		}
-		return cd; 
+		return suma; 
 	};
 
-	
-
-	
-	/* 
-	 * Funcion hashCode que devuelve el hashCode (identificador) del objeto
-	 * Realiza unas operaciones para obtener un numero identificador
-	 */
-	
 	/**
 	 * Hash code. Devuelve un identificador del objeto.
 	 *
-	 * @return the int
+	 * @return int hashCode
 	 */
 	public int hashCode() {
 		
@@ -186,16 +161,13 @@ public abstract class Coordinate {
 		
 	};
 	
-	/*
-	 * Funcion equals que devuelve true si se compara un coordinate consigo mismo o con otro que tenga las mismas coordenadas
-	 */
-	
 	/**
-	 * Equals.
+	 * Equals. Comprobara si se compara un coordinate consigo mismo o con otro que tenga las mismas coordenadas.
 	 *
 	 * @param obj the obj
 	 * @return true si se compara un coordinate consigo mismo o con otro que tenga las mismas coordenadas
 	 */
+	
 	public boolean equals( Object obj) {
 		if (obj==null) return false; //Si es nulo devuelve falso
 		  

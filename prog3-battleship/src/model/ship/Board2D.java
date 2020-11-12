@@ -1,8 +1,9 @@
-package model.ship;
-/*
- * @author Samuel Oliva Bulpitt, 49374721
+/**
+  	@author Samuel Oliva Bulpitt
+ 
  */
 
+package model.ship;
 
 import model.Board;
 import model.Coordinate;
@@ -10,24 +11,24 @@ import model.CoordinateFactory;
 import model.Craft;
 
 /**
- * The Class Board.
+ * Clase Board2D, subclase de Board
  */
 public class Board2D extends Board {
 
 	/**
-	 * Instantiates a new board. Comienza poniendo a 0 el numero de navios creados y destruidos y
-	 * comprueba que el tamaño seleccionado para el tablero es correcto, si no pone el minimo.
+	 * Constructor Board2D que llama al constructor de Board con el tamaño.
 	 *
 	 * @param size the size
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	public Board2D(int size) { super(size); }
 	
 	/**
-	 * Check coordinate. Comprueba si está dentro del tamaño del tablero,
-	 * devuelve true si lo está o falso si no lo está
+	 * CheckCoordinate comprueba que la coordenada está dentro de  los límites del tablero 2D.
 	 *
 	 * @param c the c
 	 * @return true, if successful
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	@Override
 	public boolean checkCoordinate(Coordinate c) {
@@ -40,14 +41,11 @@ public class Board2D extends Board {
 		
 	}
 	
-	
 	/**
-	 * Show. Devuelve el tablero con todos los barcos e interacciones representadas
-	 * ocultando las coordenadas no conocidas si es false o mostrando todo si es true, imitando
-	 * las vistas de tablero propio o tablero rival.
+	 * Show Board3D. Crea String con la representación del tablero. Si unveil es true muestra todas las posiciones, si es false muestra las coordenadas guardadas en seen
 	 *
 	 * @param unveil the unveil
-	 * @return the string
+	 * @return String tablero2D
 	 */
 	public String show(boolean unveil) {
 		String tabla = "";
@@ -98,7 +96,4 @@ public class Board2D extends Board {
 		}
 		return tabla;
 	}
-
-	
-		
 }

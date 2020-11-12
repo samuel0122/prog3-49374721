@@ -1,13 +1,35 @@
+/**
+  	@author Samuel Oliva Bulpitt
+ 
+ */
+
 package model.aircraft;
 
+import model.Board;
 import model.Coordinate;
 import model.CoordinateFactory;
 import model.Craft;
 
-public class Board3D extends model.ship.Board2D {
+/**
+ * Clase Board3D, subclase de Board.
+ */
+public class Board3D extends Board {
 
+	/**
+	 * Constructor Board3D que llama al constructor de Board con el tamaño.
+	 *
+	 * @param size the size
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
 	public Board3D(int size) { super(size); }
 
+	/**
+	 * CheckCoordinate comprueba que la coordenada está dentro de  los límites del tablero 3D.
+	 *
+	 * @param c the c
+	 * @return true, if successful
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
 	public boolean checkCoordinate(Coordinate c) {
 		if(c instanceof Coordinate3D) {
 			if((c.get(0)<this.getSize() && c.get(0)>=0)   &&   (c.get(1)<this.getSize() && c.get(1)>=0)   &&   (c.get(2)<this.getSize() && c.get(2)>=0))
@@ -18,7 +40,13 @@ public class Board3D extends model.ship.Board2D {
 		
 	}
 	
-	public String show(boolean unveil) { //Comprobar barcoQueOcupa();
+	/**
+	 * Show Board3D. Crea String con la representación del tablero. Si unveil es true muestra todas las posiciones, si es false muestra las coordenadas guardadas en seen
+	 *
+	 * @param unveil the unveil
+	 * @return String tablero2D
+	 */
+	public String show(boolean unveil) { 
 		String tabla = "";
 		
 		for(int j = 0; j<this.getSize(); j++) { //Por último las filas
@@ -65,10 +93,10 @@ public class Board3D extends model.ship.Board2D {
 						
 					}
 				}
+				if(k<this.getSize()-1)
 				tabla += BOARD_SEPARATOR;
 			}
 		}
 		return tabla;
 	}
 }
-

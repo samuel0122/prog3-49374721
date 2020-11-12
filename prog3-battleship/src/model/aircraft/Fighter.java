@@ -1,9 +1,23 @@
+/**
+  	@author Samuel Oliva Bulpitt
+ 
+ */
+
+
 package model.aircraft;
 
 import model.Orientation;
 
+/**
+ * Clase Fighter, subclase de Aircraft.
+ */
 public class Fighter extends Aircraft {
 
+	/**
+	 * Constructor de la clase Fighter. Llama al constructor de Aircraft con los datos y define su shape
+	 *
+	 * @param o the o
+	 */
 	public Fighter (Orientation o) {
 		super(o, '⇄', "Fighter");
 		
