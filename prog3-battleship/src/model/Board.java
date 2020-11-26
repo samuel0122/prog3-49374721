@@ -120,7 +120,7 @@ public abstract class Board {
 	 * @param craft the craft
 	 * @param c the c
 	 * @return true, si se añade con éxito el navio.
-	 * @throws BattleshipException the battleship exception
+	 * @throws CoordinateException the battleship exception
 	 */
 	public boolean addCraft(Craft craft, Coordinate c) throws InvalidCoordinateException, OccupiedCoordinateException,  NextToAnotherCraftException {
 		Set <Coordinate> positions = craft.getAbsolutePositions(c);

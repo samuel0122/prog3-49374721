@@ -12,7 +12,7 @@ import model.aircraft.Bomber;
 import model.aircraft.Coordinate3D;
 import model.aircraft.Fighter;
 import model.aircraft.Transport;
-import model.exceptions.BattleshipException;
+import model.exceptions.CoordinateException;
 import model.exceptions.CoordinateAlreadyHitException;
 import model.exceptions.InvalidCoordinateException;
 import model.exceptions.NextToAnotherCraftException;
@@ -43,7 +43,7 @@ public class MainP3 {
 		System.out.println("");
 	}
 	
-	private static void mainBoard2D() throws BattleshipException {
+	private static void mainBoard2D() throws CoordinateException {
 		Board2D board2d = null;
 		System.out.println("=== Board 2D ===");
 		System.out.println(new Cruiser(Orientation.NORTH));
@@ -245,7 +245,7 @@ public class MainP3 {
 		System.out.println(board2d.show(true));
 	}
 	
-	private static void mainBoard3D() throws BattleshipException {
+	private static void mainBoard3D() throws CoordinateException {
 		Board3D board3d = null;
 		System.out.println("=== Board 3D ===");
 		System.out.println(new Fighter(Orientation.NORTH));
@@ -369,7 +369,7 @@ public class MainP3 {
 		
 	}
 	
-	public static void main(String[] args) throws BattleshipException {
+	public static void main(String[] args) throws CoordinateException {
 		/*mainBoard2D();
 		System.out.println("\n%-%-%-%-%-%-%-%-%-%-%-%-%-%-%\n");
 		Correcto

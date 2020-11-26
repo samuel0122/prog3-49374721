@@ -10,7 +10,7 @@ import model.Coordinate;
  * Clase InvalidCoordinateException, subclase de BattleshipException.
  */
 @SuppressWarnings("serial")
-public class InvalidCoordinateException extends BattleshipException {
+public class InvalidCoordinateException extends CoordinateException {
 
 	/**
 	 * Constructor de InvalidCoordinateException que guarda la coordenada en su superclase.
@@ -27,7 +27,7 @@ public class InvalidCoordinateException extends BattleshipException {
 	 * @return String mensajeDeError
 	 */
 	public String getMessage() {
-		return super.getMessage() +" coordenada no valida porque está fuera de los límites del tablero.";
+		return super.getMessage() +"coordenada no valida porque está fuera de los límites del tablero.";
 	}
 	
 }

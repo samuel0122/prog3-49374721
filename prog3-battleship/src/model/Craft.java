@@ -18,7 +18,7 @@ import model.exceptions.*;
 public abstract class Craft {
 
 	/** Constante BOUNDING_SQUARE_SIZE. Tamaño del shape de los navios. */
-	private static final int BOUNDING_SQUARE_SIZE = 5;
+	public static final int BOUNDING_SQUARE_SIZE = 5;
 	/** Constante HIT_VALUE. Valor en el shape que indica posicion golpeada en el navio. */
 	private static final int HIT_VALUE = -1;
 	/** Constante CRAFT_VALUE. Valor en el shape que indica posicion que el navio ocupa. */

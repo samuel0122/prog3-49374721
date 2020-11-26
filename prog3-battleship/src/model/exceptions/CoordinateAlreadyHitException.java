@@ -11,7 +11,7 @@ import model.Coordinate;
  * Clase CoordinateAlreadyHitException, subclase de BattleshipException.
  */
 @SuppressWarnings("serial")
-public class CoordinateAlreadyHitException extends BattleshipException {
+public class CoordinateAlreadyHitException extends CoordinateException {
 
 	/**
 	 * Constructor de CoordinateAlreadyHitException que guarda la coordenada en su superclase.
@@ -28,7 +28,7 @@ public class CoordinateAlreadyHitException extends BattleshipException {
 	 * @return String mensajeDeError
 	 */
 	public String getMessage() {
-		return super.getMessage() +" coordenada no valida porque ya fue golpeada previamente.";
+		return super.getMessage() +"coordenada no valida porque ya fue golpeada previamente.";
 	}
 
 }

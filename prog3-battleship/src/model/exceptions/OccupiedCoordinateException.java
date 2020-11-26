@@ -10,7 +10,7 @@ import model.Coordinate;
  * Clase OccupiedCoordinateException, subclase de BattleshipException.
  */
 @SuppressWarnings("serial")
-public class OccupiedCoordinateException extends BattleshipException {
+public class OccupiedCoordinateException extends CoordinateException {
 
 	/**
 	 * Constructor de OccupiedCoordinateException que guarda la coordenada en su superclase.
@@ -27,7 +27,7 @@ public class OccupiedCoordinateException extends BattleshipException {
 	 * @return String mensajeDeError
 	 */
 	public String getMessage() {
-		return super.getMessage() +" coordenada no valida porque tiene una posición ya ocupada.";
+		return super.getMessage() +"coordenada no valida porque tiene una posición ya ocupada.";
 	}
 
 }

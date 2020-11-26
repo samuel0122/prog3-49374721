@@ -10,7 +10,7 @@ import model.Coordinate;
  * Clase NextToAnotherCraftException, subclase de BattleshipException.
  */
 @SuppressWarnings("serial")
-public class NextToAnotherCraftException extends BattleshipException {
+public class NextToAnotherCraftException extends CoordinateException {
 	
 	/**
 	 * Constructor de NextToAnotherCraftException que guarda la coordenada en su superclase.
@@ -27,7 +27,7 @@ public class NextToAnotherCraftException extends BattleshipException {
 	 * @return String mensajeDeError
 	 */
 	public String getMessage() {
-		return super.getMessage() +" coordenada no valida porque no respeta la vecindad de otro navio.";
+		return super.getMessage() +"coordenada no valida porque no respeta la vecindad de otro navio.";
 	}
 	
 }

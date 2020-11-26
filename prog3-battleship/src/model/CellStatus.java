@@ -1,6 +1,5 @@
 /**
   	@author Samuel Oliva Bulpitt
- 
  */
 package model;
 

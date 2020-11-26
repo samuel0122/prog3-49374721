@@ -10,12 +10,6 @@ package model;
  */
 public enum Orientation {
 	
-	/** The north. */
-	NORTH,
-/** The east. */
-EAST,
-/** The south. */
-SOUTH,
-/** The west. */
-WEST;
+	/** Orientaciones posibles */
+	NORTH, EAST, SOUTH, WEST;
 }
