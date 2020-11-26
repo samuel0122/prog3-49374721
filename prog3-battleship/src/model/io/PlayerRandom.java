@@ -13,6 +13,7 @@ import model.CraftFactory;
 import model.Orientation;
 import model.aircraft.Board3D;
 import model.exceptions.BattleshipException;
+import model.exceptions.CoordinateAlreadyHitException;
 import model.exceptions.InvalidCoordinateException;
 import model.exceptions.NextToAnotherCraftException;
 import model.exceptions.OccupiedCoordinateException;
@@ -48,7 +49,8 @@ public class PlayerRandom implements IPlayer {
 	public String getName() { return this.name+" (PlayerRandom)";	}
 
 	/**
-	 * putCrafts de PlayerRandom. Genera una orientacion aleatoria y una coordenada aleatoria por cada navio,
+	 * putCrafts de PlayerRandom. 
+	 * Genera una orientacion aleatoria y una coordenada aleatoria por cada navio.
 	 * Hay un limite de 100 coordenadas aleatorias generadas, si este se supera se deja el board como esta
 	 * sin terminar de añadir todos los Crafts.
 	 * 
@@ -66,7 +68,6 @@ public class PlayerRandom implements IPlayer {
 			cantidadNavios = ordenNavios.length;
 		
 		for(int i = 0; (i < cantidadNavios) && (cantidadCoordAleatorias <10); i++) {
-			
 			
 			int orient = random.nextInt(4);
 			Orientation orientacion;
@@ -89,20 +90,27 @@ public class PlayerRandom implements IPlayer {
 			while(error && (cantidadCoordAleatorias < 100)) {
 				try {
 					cantidadCoordAleatorias++;
-					b.addCraft(navio, genRandomCoordinate(b, Craft.BOUNDING_SQUARE_SIZE));
+					Coordinate c = genRandomCoordinate( b, Craft.BOUNDING_SQUARE_SIZE);
+					b.addCraft( navio, c);
 					error = false;
 				} catch (BattleshipException e) {}
-			}
-			//Si se superan los 100 intentos, se deja de añadir navios y se deja el board con los navios ya añadidos
+			} //Si se superan los 100 intentos, se deja de añadir navios y se deja el board con los navios ya añadidos
 		}
-		
-		
 	}
 
+	/**
+	 * nextShoot() de PlayerRandom.
+	 * Genera una coordenada aleatoria en el que dispara al board.
+	 * 
+	 * @param Board b, puede ser 2D o 3D
+	 * @throws CoordinateAlreadyHitException
+	 * @throws InvalidCoordinateException
+	 */
 	@Override
-	public Coordinate nextShoot(Board b) {
-		
-		return null;
+	public Coordinate nextShoot(Board b) throws CoordinateAlreadyHitException, InvalidCoordinateException {
+		Coordinate c = genRandomCoordinate( b, 0);
+		b.hit(c);
+		return c;
 	}
 	
 	/**
