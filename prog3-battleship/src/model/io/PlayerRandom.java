@@ -59,7 +59,7 @@ public class PlayerRandom implements IPlayer {
 	@Override
 	public void putCrafts(Board b) {
 		String [] ordenNavios = { "Battleship", "Carrier", "Cruiser", "Destroyer", "Bomber", "Fighter", "Transport" };
-		int cantidadCoordAleatorias = 0;
+		int cantidadCoordAleatorias;
 		
 		int cantidadNavios;
 		if(b instanceof Board2D )
@@ -67,8 +67,8 @@ public class PlayerRandom implements IPlayer {
 		else
 			cantidadNavios = ordenNavios.length;
 		
-		for(int i = 0; (i < cantidadNavios) && (cantidadCoordAleatorias <10); i++) {
-			
+		for(int i = 0; i < cantidadNavios ; i++) {
+			cantidadCoordAleatorias = 0;
 			int orient = random.nextInt(4);
 			Orientation orientacion;
 			//Obtiene orientacion aleatoria
@@ -94,7 +94,7 @@ public class PlayerRandom implements IPlayer {
 					b.addCraft( navio, c);
 					error = false;
 				} catch (BattleshipException e) {}
-			} //Si se superan los 100 intentos, se deja de añadir navios y se deja el board con los navios ya añadidos
+			} //Si se superan los 100 intentos, no se añade ese navio
 		}
 	}
 
