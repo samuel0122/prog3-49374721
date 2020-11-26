@@ -48,8 +48,11 @@ public class PlayerRandom implements IPlayer {
 	public String getName() { return this.name+" (PlayerRandom)";	}
 
 	/**
+	 * putCrafts de PlayerRandom. Genera una orientacion aleatoria y una coordenada aleatoria por cada navio,
+	 * Hay un limite de 100 coordenadas aleatorias generadas, si este se supera se deja el board como esta
+	 * sin terminar de añadir todos los Crafts.
 	 * 
-	 * 
+	 * @param Board b, puede ser 2D o 3D
 	 */
 	@Override
 	public void putCrafts(Board b) {
@@ -80,6 +83,7 @@ public class PlayerRandom implements IPlayer {
 			
 			//1. Crea barco con orientacion aleatoria
 			Craft navio = CraftFactory.createCraft(ordenNavios[i], orientacion);
+			
 			//2. Añade barco al tablero con una coordenada aleatoria hasta que no de error
 			boolean error = true;
 			while(error && (cantidadCoordAleatorias < 100)) {
@@ -89,6 +93,7 @@ public class PlayerRandom implements IPlayer {
 					error = false;
 				} catch (BattleshipException e) {}
 			}
+			//Si se superan los 100 intentos, se deja de añadir navios y se deja el board con los navios ya añadidos
 		}
 		
 		
@@ -118,11 +123,15 @@ public class PlayerRandom implements IPlayer {
 	 * @return Coordinate coordenada aleatorio
 	 */
 	private Coordinate genRandomCoordinate (Board b, int offset) {
-		if (b instanceof Board3D) //Si nos localizamos en una tabla 3D creamos un coordinate 3D
-			return CoordinateFactory.createCoordinate(genRandomInt(0-offset, b.getSize()), genRandomInt(0-offset, b.getSize()), genRandomInt(0-offset, b.getSize()));
-		else if (b instanceof Board2D ) //Si es una tabla 2D, creamos coordinate 2D
-			return CoordinateFactory.createCoordinate(genRandomInt(0-offset, b.getSize()), genRandomInt(0-offset, b.getSize()));
-		return null;
+		int x = genRandomInt(0-offset, b.getSize());
+		int y = genRandomInt(0-offset, b.getSize());
+		int z;
+		if (b instanceof Board3D) { //Si nos localizamos en una tabla 3D creamos un coordinate 3D
+			z = genRandomInt(0-offset, b.getSize());
+			return CoordinateFactory.createCoordinate(x, y, z);
+		} else  //Si es una tabla 2D, creamos coordinate 2D
+			return CoordinateFactory.createCoordinate(x, y);
+		
 	}
 }
 
