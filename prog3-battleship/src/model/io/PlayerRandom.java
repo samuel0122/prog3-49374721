@@ -142,4 +142,3 @@ public class PlayerRandom implements IPlayer {
 		
 	}
 }
-
