@@ -29,7 +29,7 @@ public class VisualiserGIF implements IVisualiser {
 	public VisualiserGIF(Game g) {
 		Objects.requireNonNull(g);
 		this.game=g;
-		agif = null;
+		agif = new AnimatedGIF();
 	}
 	
 	/**
@@ -91,6 +91,7 @@ public class VisualiserGIF implements IVisualiser {
 					}
 				}
 			}
+			
 			//Guarda el frame
 			agif.addFrame(frame);
 			

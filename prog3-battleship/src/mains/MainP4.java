@@ -97,8 +97,7 @@ public class MainP4 {
 			Game game = new Game(b1, b2, player1, player2);
 
 			IVisualiser visualiser = VisualiserFactory.createVisualiser("GIF", game);
-			if(visualiser instanceof VisualiserGIF)
-				System.out.println("GIF");
+			
 			game.playGame(visualiser);
 			
 			System.out.println("Done");
