@@ -55,17 +55,23 @@ public class VisualiserGIF implements IVisualiser {
 			FrameGIF frame = new FrameGIF(w, h*2+1);
 			//Dibuja board 1
 			String tabla = board1.show(false);
+			
 			for(int j=0; j < h; j++) {
 				for(int i=0; i < w; i++) {
-					char c = tabla.charAt(i+w*j);
+					char c = tabla.charAt(i+w*j+j);
+					//charAt(eje x + tamaño ancho*j + j para saltarse los \n que hay uno por j
 					switch (c) {
-						case Board.BOARD_SEPARATOR: frame.printSquare(i, j, Color.ORANGE);
+						case Board.BOARD_SEPARATOR: 
+							frame.printSquare(i, j, Color.ORANGE);
 							break;
-						case Board.HIT_SYMBOL: frame.printSquare(i, j, Color.RED);
+						case Board.WATER_SYMBOL: 
+							frame.printSquare(i, j, Color.BLUE);
 							break;
-						case Board.NOTSEEN_SYMBOL: frame.printSquare(i, j, Color.LIGHT_GRAY);
+						case Board.NOTSEEN_SYMBOL:
+							frame.printSquare(i, j, Color.LIGHT_GRAY);
 							break;
-						default: frame.printSquare(i, j, Color.BLUE);
+						default: 
+							frame.printSquare(i, j, Color.RED);
 							break;
 					}
 				}
@@ -78,15 +84,21 @@ public class VisualiserGIF implements IVisualiser {
 			tabla = board2.show(false);
 			for(int j=0; j < h; j++) {
 				for(int i=0; i < w; i++) {
-					char c = tabla.charAt(i+w*j);
+					
+					char c = tabla.charAt(i+w*j+j);
+					
 					switch (c) {
-						case Board.BOARD_SEPARATOR: frame.printSquare(i, j+h+1, Color.ORANGE);
+						case Board.BOARD_SEPARATOR: 
+							frame.printSquare(i, j+h+1, Color.ORANGE);
 							break;
-						case Board.HIT_SYMBOL: frame.printSquare(i, j+h+1, Color.RED);
+						case Board.WATER_SYMBOL: 
+							frame.printSquare(i, j+h+1, Color.BLUE);
 							break;
-						case Board.NOTSEEN_SYMBOL: frame.printSquare(i, j+h+1, Color.LIGHT_GRAY);
+						case Board.NOTSEEN_SYMBOL:
+							frame.printSquare(i, j+h+1, Color.LIGHT_GRAY);
 							break;
-						default: frame.printSquare(i, j+h+1, Color.BLUE);
+						default: 
+							frame.printSquare(i, j+h+1, Color.RED);
 							break;
 					}
 				}

@@ -90,7 +90,7 @@ public class MainP4 {
 		try {
 			IPlayer player1 = PlayerFactory.createPlayer("John","files/playerfile-john.txt");
 			IPlayer player2 = PlayerFactory.createPlayer("Mary","files/playerfile-mary.txt");
-			IPlayer player3 = PlayerFactory.createPlayer("Jose", "2423432");
+		//	IPlayer player3 = PlayerFactory.createPlayer("Jose", "2423432");
 			Board b1 = new Board3D(6);
 			Board b2 = new Board3D(6);
 			
