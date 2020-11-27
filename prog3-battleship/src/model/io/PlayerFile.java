@@ -60,25 +60,26 @@ public class PlayerFile implements IPlayer {
 		Objects.requireNonNull(b);
 		try {
 			String lectura;
-			while((lectura=br.readLine())!="endput\n" && lectura!="exit\n" && lectura!=null ) {
+			while( !( lectura=br.readLine() ).equals("endput") && !lectura.equals("exit") && !lectura.equals(null) ) {
 				String [] tokens = lectura.split("\\s+");
 				
 				//Si el comando no es put, o tiene menos o mas de los argumentos esperados, lanzo exception
-				if(tokens[0]!="put")
+				if(!tokens[0].equals("put")) {
 					throw new BattleshipIOException("Error en putCraft del jugador " + name + ": comando "+tokens[0]+" no valido.\n");
+				}
 				if(tokens.length<5 || tokens.length > 6)
 					throw new BattleshipIOException("Error en putCraft del jugador " + name + ": cantidad de parametros recibidos ("+tokens.length+") no valido.\n");
 					
 				
 				//Crea el navio con su orientacion
-				Craft navio;
-				if(tokens[2] == "NORTH") {
+				Craft navio = null;
+				if(tokens[2].equals("NORTH") ) {
 					navio = CraftFactory.createCraft(tokens[1], Orientation.NORTH);
-				} else if(tokens[2] == "SOUTH") {
+				} else if(tokens[2].equals("SOUTH") ) {
 					navio = CraftFactory.createCraft(tokens[1], Orientation.SOUTH);
-				} else if(tokens[2] == "EAST") {
+				} else if(tokens[2].equals("EAST") ) {
 					navio = CraftFactory.createCraft(tokens[1], Orientation.EAST);
-				} else if(tokens[2] == "WEST") {
+				} else if(tokens[2].equals("WEST") ) {
 					navio = CraftFactory.createCraft(tokens[1], Orientation.WEST);
 				} else {
 					throw new BattleshipIOException("Error en putCraft del jugador " + name + ": Orientatation "+tokens[2]+" no valida.\n");
@@ -116,12 +117,12 @@ public class PlayerFile implements IPlayer {
 		try {
 			String lectura=br.readLine();
 			
-			if(lectura == "exit\n" || lectura == null) {
+			if(lectura.equals("exit") || lectura.equals(null) ) {
 				return null;
 			} else {
 				String [] tokens = lectura.split("\\s+");
 				
-				if (tokens[0] != "shoot")
+				if (!tokens[0].equals("shoot") )
 					throw new BattleshipIOException("Error en nextShoot: el comando "+tokens[0]+" no es valido.");
 				if(tokens.length <3 || tokens.length > 4)
 					throw new BattleshipIOException("Error en nextShoot: cantidad de parametros recibidos ("+tokens.length+") no valido.");

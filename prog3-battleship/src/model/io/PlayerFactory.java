@@ -21,19 +21,10 @@ public class PlayerFactory {
 	 */
 	public static IPlayer createPlayer(String playerName, String fileORseed) throws BattleshipIOException {
 		try {
-			//Mira si es playerFile
-			boolean isPlayerFile=false;
-			for(int i = 0; (i < fileORseed.length()) && !isPlayerFile; i++) {
-				char c = fileORseed.charAt(i);
-				if((c =='.') || (c =='/') || (c =='\\'))
-					isPlayerFile=true;
-			}
-			//Si es playerFile lo crea
-			if(isPlayerFile) {
-				FileReader reader = new FileReader(fileORseed);
-				return new PlayerFile( new BufferedReader(reader), playerName);
-			}
-			
+			//Mira si contiene los caracteres para ser un playerFile y lo crea
+			if(fileORseed.contains(".") || fileORseed.contains("/") || fileORseed.contains("\\") ) 
+				return new PlayerFile( new BufferedReader(new FileReader(fileORseed)), playerName);
+
 			//Si no es playerFile, se intenta crear el playerRandom
 			return new PlayerRandom( playerName, Long.parseLong(fileORseed));
 		

@@ -181,11 +181,12 @@ public abstract class Board {
 	 * @throws InvalidCoordinateException the invalid coordinate exception
 	 */
 	public CellStatus hit (Coordinate c) throws CoordinateAlreadyHitException, InvalidCoordinateException {
-		seen.add(c.copy());
+		
 		
 		if(!checkCoordinate(c)) { //Si el disparo se va fuera del tablero imprime error
 			throw new InvalidCoordinateException(c);
 		}
+		seen.add(c.copy());
 		
 		Craft barco = getCraft(c); 
 		

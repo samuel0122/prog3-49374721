@@ -49,11 +49,11 @@ public class VisualiserGIF implements IVisualiser {
 			w = h;
 		else  //Si es 3D... Tamaño^2 + Tamaño-1 (para separadores)
 			w = h*h+h-1;
-		
-		//Frame del ancho del board y alto*2+1 para dibujar un board debajo del otro con una linea espaciadora
-		FrameGIF frame = new FrameGIF(w, h*2+1);
-		//Dibuja board 1
+
 		try{
+			//Frame del ancho del board y alto*2+1 para dibujar un board debajo del otro con una linea espaciadora
+			FrameGIF frame = new FrameGIF(w, h*2+1);
+			//Dibuja board 1
 			String tabla = board1.show(false);
 			for(int j=0; j < h; j++) {
 				for(int i=0; i < w; i++) {
@@ -65,7 +65,7 @@ public class VisualiserGIF implements IVisualiser {
 							break;
 						case Board.NOTSEEN_SYMBOL: frame.printSquare(i, j, Color.LIGHT_GRAY);
 							break;
-						case Board.WATER_SYMBOL: frame.printSquare(i, j, Color.BLUE);
+						default: frame.printSquare(i, j, Color.BLUE);
 							break;
 					}
 				}
@@ -76,24 +76,26 @@ public class VisualiserGIF implements IVisualiser {
 			}
 			//Dibuja board 2
 			tabla = board2.show(false);
-			for(int j=h+1; j < h*2+1; j++) {
+			for(int j=0; j < h; j++) {
 				for(int i=0; i < w; i++) {
 					char c = tabla.charAt(i+w*j);
 					switch (c) {
-						case Board.BOARD_SEPARATOR: frame.printSquare(i, j, Color.ORANGE);
+						case Board.BOARD_SEPARATOR: frame.printSquare(i, j+h+1, Color.ORANGE);
 							break;
-						case Board.HIT_SYMBOL: frame.printSquare(i, j, Color.RED);
+						case Board.HIT_SYMBOL: frame.printSquare(i, j+h+1, Color.RED);
 							break;
-						case Board.NOTSEEN_SYMBOL: frame.printSquare(i, j, Color.LIGHT_GRAY);
+						case Board.NOTSEEN_SYMBOL: frame.printSquare(i, j+h+1, Color.LIGHT_GRAY);
 							break;
-						case Board.WATER_SYMBOL: frame.printSquare(i, j, Color.BLUE);
+						default: frame.printSquare(i, j+h+1, Color.BLUE);
 							break;
 					}
 				}
 			}
 			//Guarda el frame
 			agif.addFrame(frame);
+			
 		} catch (BattleshipIOException e) { //Si lanza excepcion, lo cambio a RuntimeException
+			
 			throw new RuntimeException(e);
 		}
 	}
