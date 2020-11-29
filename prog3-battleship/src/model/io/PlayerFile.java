@@ -61,7 +61,8 @@ public class PlayerFile implements IPlayer {
 		Objects.requireNonNull(b);
 		try {
 			String lectura;
-			while( !( lectura=br.readLine() ).equals("endput") && !lectura.equals("exit") && !lectura.equals(null) ) {
+			lectura=br.readLine();
+			while(lectura !=(null) && !lectura.equals("endput") && !lectura.equals("exit") ) {
 				String [] tokens = lectura.split("\\s+");
 				
 				//Si el comando no es put, o tiene menos o mas de los argumentos esperados, lanzo exception
@@ -96,6 +97,7 @@ public class PlayerFile implements IPlayer {
 				
 				//Añade navio
 				b.addCraft(navio, coord);
+				lectura=br.readLine();
 			}
 		} catch (IOException e) {
 			throw new BattleshipIOException("Error en putCraft con la lectura del buffer: "+e);
@@ -118,7 +120,7 @@ public class PlayerFile implements IPlayer {
 		try {
 			String lectura=br.readLine();
 			
-			if(lectura.equals("exit") || lectura.equals(null) ) {
+			if(lectura == null || lectura.equals("exit") ) {
 				return null;
 			} else {
 				String [] tokens = lectura.split("\\s+");
