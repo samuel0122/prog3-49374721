@@ -284,3 +284,4 @@ Raul (PlayerRandom)
 ==================================
 Number of shots: 14
 Action by Mary (PlayerRandom): model.exceptions.CoordinateAlreadyHitException: Error con la coordenada (0, 1): coordenada no valida porque ya fue golpeada previamente.
+333333
