@@ -23,7 +23,7 @@ public class PlayerFactory {
 		try {
 			//Mira si contiene los caracteres para ser un playerFile y lo crea
 			if(fileORseed.contains(".") || fileORseed.contains("/") || fileORseed.contains("\\") ) 
-				return new PlayerFile( new BufferedReader(new FileReader(fileORseed)), playerName);
+				return new PlayerFile(playerName, new BufferedReader(new FileReader(fileORseed)));
 
 			//Si no es playerFile, se intenta crear el playerRandom
 			return new PlayerRandom( playerName, Long.parseLong(fileORseed));

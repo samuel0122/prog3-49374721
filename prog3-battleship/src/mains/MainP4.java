@@ -1,23 +1,11 @@
 package mains;
 
-import model.Board;
-import model.Coordinate;
-import model.Game;
+import model.*;
 import model.aircraft.Board3D;
-import model.exceptions.CoordinateAlreadyHitException;
-import model.exceptions.InvalidCoordinateException;
-import model.exceptions.NextToAnotherCraftException;
-import model.exceptions.OccupiedCoordinateException;
+import model.exceptions.*;
 import model.exceptions.io.BattleshipIOException;
-import model.io.IPlayer;
-import model.io.IVisualiser;
-import model.io.PlayerFactory;
-import model.io.PlayerRandom;
-import model.io.VisualiserConsole;
-import model.io.VisualiserFactory;
-import model.io.VisualiserGIF;
-import model.ship.Board2D;
-import model.ship.Coordinate2D;
+import model.io.*;
+import model.ship.*;
 
 public class MainP4 {
 
@@ -90,15 +78,21 @@ public class MainP4 {
 		try {
 			IPlayer player1 = PlayerFactory.createPlayer("John","files/playerfile-john.txt");
 			IPlayer player2 = PlayerFactory.createPlayer("Mary","files/playerfile-mary.txt");
-		//	IPlayer player3 = PlayerFactory.createPlayer("Jose", "2423432");
+			IPlayer player3 = PlayerFactory.createPlayer("Jose", "2423432");
+			IPlayer player4 = PlayerFactory.createPlayer("Antonia", "142234");
 			Board b1 = new Board3D(6);
 			Board b2 = new Board3D(6);
+			Board b3 = new Board2D(8);
+			Board b4 = new Board2D(8);
 			
 			Game game = new Game(b1, b2, player1, player2);
-
-			IVisualiser visualiser = VisualiserFactory.createVisualiser("GIF", game);
+			Game game2 = new Game(b3, b4, player3, player4);
+			
+			IVisualiser visualiser = VisualiserFactory.createVisualiser("Console", game);
+			IVisualiser visualiser2 = VisualiserFactory.createVisualiser("GIF", game2);
 			
 			game.playGame(visualiser);
+			game2.playGame(visualiser2);
 			
 			System.out.println("Done");
 		} catch (BattleshipIOException e) {

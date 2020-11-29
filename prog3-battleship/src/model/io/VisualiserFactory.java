@@ -3,8 +3,6 @@
  */
 package model.io;
 
-import java.util.Objects;
-
 import model.Game;
 
 /**

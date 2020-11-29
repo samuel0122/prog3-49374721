@@ -74,6 +74,10 @@ public class Game {
 	
 	/**
 	 * Metodo start, inicia la partida colocando los navios.
+	 * @throws BattleshipIOException 
+	 * @throws NextToAnotherCraftException 
+	 * @throws OccupiedCoordinateException 
+	 * @throws InvalidCoordinateException 
 	 */
 	public void start() {
 		// Inicializo las variables y coloco los navios
@@ -128,9 +132,9 @@ public class Game {
 			//Este error se origina al disparar a una posicion de un navio ya disparada, al agua no pasa nada
 			//Si aparece este error imprimo quien lo ha provocado y el error
 			if(this.nextToShoot == 0)
-				System.out.println("Action by "+this.player1.getName()+"..."+e);
+				System.out.println("Action by "+this.player1.getName()+": "+e);
 			else
-				System.out.println("Action by "+this.player2.getName()+"..."+e);
+				System.out.println("Action by "+this.player2.getName()+": "+e);
 			return false; //Devuelvo false porque no se hizo el disparo
 		}
 	}
@@ -138,6 +142,10 @@ public class Game {
 	/**
 	 * Metodo playGame, juega la partida mostrandolo con el IVisualiser hasta que se termine
 	 * @param IVisualiser visualiser
+	 * @throws BattleshipIOException 
+	 * @throws NextToAnotherCraftException 
+	 * @throws OccupiedCoordinateException 
+	 * @throws InvalidCoordinateException 
 	 */
 	public void playGame(IVisualiser visualiser) {
 		//Inicia partida y muestra el estado inicial

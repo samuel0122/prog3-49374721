@@ -15,8 +15,6 @@ import model.aircraft.Board3D;
 import model.exceptions.BattleshipException;
 import model.exceptions.CoordinateAlreadyHitException;
 import model.exceptions.InvalidCoordinateException;
-import model.exceptions.NextToAnotherCraftException;
-import model.exceptions.OccupiedCoordinateException;
 import model.ship.Board2D;
 
 /**
@@ -120,8 +118,9 @@ public class PlayerRandom implements IPlayer {
 	 * @param int minimo
 	 * @return int numero Entre Max Y Min
 	 */
-	private int genRandomInt (int max, int min) { return random.nextInt(max-min)+min; }
-	
+	private int genRandomInt(int min, int max) { 
+	    return random.nextInt(max-min)+min;
+	}
 	/**
 	 * Metodo genRandomCoordinate que crea un coordinate aleatorio dependiendo de
 	 * en que tipo de tabla se pase
@@ -131,8 +130,8 @@ public class PlayerRandom implements IPlayer {
 	 * @return Coordinate coordenada aleatorio
 	 */
 	private Coordinate genRandomCoordinate (Board b, int offset) {
-		int x = genRandomInt(0-offset, b.getSize());
-		int y = genRandomInt(0-offset, b.getSize());
+		int x = genRandomInt(0-offset,  b.getSize());
+		int y = genRandomInt(0-offset,  b.getSize());
 		int z;
 		if (b instanceof Board3D) { //Si nos localizamos en una tabla 3D creamos un coordinate 3D
 			z = genRandomInt(0-offset, b.getSize());

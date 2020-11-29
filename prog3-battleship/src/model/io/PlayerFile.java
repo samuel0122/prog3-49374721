@@ -35,7 +35,8 @@ public class PlayerFile implements IPlayer {
 	 * @param BufferedReader reader, el texto leido.
 	 * @param String name, nombre del jugador.
 	 */
-	public PlayerFile(BufferedReader reader, String name) {
+	//HE CAMBIADO EL ORDEN DEL NAME Y READER
+	public PlayerFile(String name,BufferedReader reader) {
 		Objects.requireNonNull(reader);
 		this.name=name;
 		this.br=reader;
