@@ -3,27 +3,25 @@
  
  */
 
-
 package model;
 
 import java.util.*;
 
 import model.ship.Coordinate2D;
 
-
 /**
- * Clase Coordinate.
+ * Las coordenadas de las casillas del tablero.
  */
 public abstract class Coordinate {
 	
-	/** Array int components. Componentes de Coordinate. */
+	/** Componentes de Coordinate. */
 	private int[] components; //Componentes de una coordenada
 	
 	
 	/**
-	 * Constructor de la clase que inicializa el Coordinate con el tamaño pasado por parametro.
+	 * Constructor de la clase que inicializa el Coordinate con las dimensiones introducidas.
 	 *
-	 * @param dim the dim
+	 * @param dim Dimensiones de las coordenadas.
 	 */
 	
 	protected Coordinate(int dim){
@@ -34,7 +32,7 @@ public abstract class Coordinate {
 	/**
 	 * Constructor de copia de Coordinate.
 	 *
-	 * @param c the c
+	 * @param c Coordenada a copiar.
 	 */
 	protected Coordinate(Coordinate c){
 		
@@ -47,11 +45,11 @@ public abstract class Coordinate {
 		
 	
 	/**
-	 * Setter de coordinate. Comprueba que el componente es correcto.
+	 * Establece un componente de la coordenada al valor introducido.
 	 *
-	 * @param component the component
-	 * @param value the value
-	 * @throws IllegalArgumentException the illegal argument exception
+	 * @param component Posicion del componente a modificar.
+	 * @param value Valor a establecer en el componente.
+	 * @throws IllegalArgumentException si la posicion del componente está fuera de las dimensiones de la coordenada.
 	 */
 	
 	protected void set(int component,int value) {
@@ -63,11 +61,11 @@ public abstract class Coordinate {
 	
 	
 	/**
-	 * Getter de coordinates. Coge el valor del componente deseado.
+	 * Recoge el valor del componente deseado.
 	 *
-	 * @param component the component
-	 * @return Int valor del componente
-	 * @throws IllegalArgumentException the illegal argument exception
+	 * @param component Componente de la coordenada.
+	 * @return Valor del componente.
+	 * @throws IllegalArgumentException si el componente solicitado está fuera de las dimensiones de la coordenada.
 	 */
 	
 	public int get(int component) {
@@ -80,9 +78,9 @@ public abstract class Coordinate {
 
 	
 	/**
-	 * Metodo abstracto de adjacentCoordinates. Devolvera las coordenadas vecinas, pero se debe implementar en las subclases de Coordinate.
-	 *
-	 * @return the sets the
+	 * Obtiene las coordenadas adyacentes a la coordenada.
+	 * 
+	 * @return Conjunto de coordenadas adyacentes.
 	 */
 
 	public abstract Set<Coordinate> adjacentCoordinates();
@@ -90,19 +88,19 @@ public abstract class Coordinate {
 	
 	
 	/**
-	 * Metodo abstracto de copia del coordinate. Devolvera una copia del coordenate que lo invocao, pero de sebe implementar en las subclases de Coordinate.
-	 *
-	 * @return the coordinate
+	 * Realiza una copia de la coordenada.
+	 * 
+	 * @return Coordenada copia.
 	 */
 	public abstract Coordinate copy();
 	
 	
 	/**
-	 * Subtract. Resta de coordenadas que recibe un Coordinate c y lo resta al Coordinate que invoca la funcion 
-	 * Devuelve el resultado en forma de Coordinates
+	 * Resta de coordenadas que recibe una coordenada y lo resta al actual.
 	 *
-	 * @param c the c
-	 * @return Coordinate resta
+	 * @param c Coordenada a restar.
+	 * @return Coordenada actual restandole el recibido.
+	 * @throws NullPointerException si la coordenada recibida es nulo.
 	 */
 	public Coordinate subtract(Coordinate c) {
 		Objects.requireNonNull(c);
@@ -122,11 +120,11 @@ public abstract class Coordinate {
 	
 	
 	/**
-	 * Adds. Suma de coordenadas que recibe un Coordinate c y lo suma al Coordinate que invoca la funcion:
-	 * Devuelve el resultado en forma de Coordinate
+	 * Suma de coordenadas que recibe una coordenada y lo suma al actual.
 	 *
-	 * @param c the c
-	 * @return Coordinate suma
+	 * @param c Coordenada a sumar
+	 * @return Coordenada actual sumandole el recibido.
+	 * @throws NullPointerException si la coordenada recibida es nulo.
 	 */
 	public Coordinate add(Coordinate c) {
 		Objects.requireNonNull(c);
@@ -145,9 +143,9 @@ public abstract class Coordinate {
 	};
 
 	/**
-	 * Hash code. Devuelve un identificador del objeto.
+	 * Identificador del objeto Coordenada.
 	 *
-	 * @return int hashCode
+	 * @return identificador de la coordenada.
 	 */
 	public int hashCode() {
 		

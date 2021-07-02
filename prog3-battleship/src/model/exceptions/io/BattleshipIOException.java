@@ -12,21 +12,23 @@ import model.exceptions.BattleshipException;
 public class BattleshipIOException extends BattleshipException {
 	
 	/** 
-	 * String mensage, almacena el mensaje pasado previamente.
+	 * Mensaje de error.
 	 */
 	private String mesage;
 	
 	/**
-	 * Constructor BattleshipIOException, recibe el mensaje a guardar.
-	 * @param String mensaje
+	 * Constructor BattleshipIOException.
+	 * 
+	 * @param m Mensaje de error a almacenar.
 	 */
 	public BattleshipIOException(String m) {
 		this.mesage=m;
 	}
 	
 	/**
-	 * Getter de BattleshipIOException.
-	 * @return String mensaje
+	 * Obtiene el mensaje de error.
+	 * 
+	 * @return Mensaje de error.
 	 */
 	public String getMessage() { return this.mesage; }
 }

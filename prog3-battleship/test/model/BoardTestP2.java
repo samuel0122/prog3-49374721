@@ -19,10 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import model.exceptions.CoordinateException;
-import model.exceptions.InvalidCoordinateException;
-import model.exceptions.NextToAnotherCraftException;
-import model.exceptions.OccupiedCoordinateException;
+import model.exceptions.BattleshipException;
 import model.ship.Board2D;
 import model.ship.Coordinate2D;
 import model.ship.Cruiser;
@@ -131,7 +128,7 @@ public class BoardTestP2 {
 	 * los Ships en el Board.
 	 */
 	@Test
-	public void testaddShipsOk() throws CoordinateException {
+	public void testaddShipsOk() throws BattleshipException {
 		board.addCraft(galeon, new Coordinate2D(0,1));
 		for (int i=2; i<5; i++)	
 			assertNotNull("x,y = 2,"+i,board.getCraft(new Coordinate2D(2,i)));
@@ -151,7 +148,7 @@ public class BoardTestP2 {
 	 * 
 	 */
 	@Test
-	public void testAddShipsOkLimits() throws CoordinateException {
+	public void testAddShipsOkLimits() throws BattleshipException {
 		board.addCraft(galeon, new Coordinate2D(-2,-1));
 		for (int i=0; i<3; i++)	
 			assertNotNull("x,y = 0,"+i,board.getCraft(new Coordinate2D(0,i)));
@@ -174,28 +171,28 @@ public class BoardTestP2 {
 		try {
 		  board.addCraft(galeon, new Coordinate2D(0,7));
 		  fail ("Error no se produjo la excepción ");
-		} catch (CoordinateException e) {
+		} catch (BattleshipException e) {
 		    for (int i=8; i<11; i++) 
 			   assertNull("x,y = 2,"+i,board.getCraft(new Coordinate2D(2,i)));
 		}
 		try {
 		   board.addCraft(fragata, new Coordinate2D(7,3));
 		   fail ("Error no se produjo la excepción");
-		} catch (CoordinateException e) {
+		} catch (BattleshipException e) {
 		    for (int i=8; i<11; i++) 
 		       assertNull("x,y = "+i+"5",board.getCraft(new Coordinate2D(i,5)));
 		}
 		try {
 		   board.addCraft(goleta, new Coordinate2D(-2,-2));
 		   fail ("Error no se produjo la excepción ");
-		} catch (CoordinateException e) {
+		} catch (BattleshipException e) {
 			for (int i=-1; i<2; i++) 
 				assertNull("x,y = 0,"+i,board.getCraft(new Coordinate2D(0,i)));
 		}
 		try {
 			board.addCraft(bergantin, new Coordinate2D(-2,7));
 			fail ("Error no se produjo la excepción ");
-		} catch (CoordinateException e) {
+		} catch (BattleshipException e) {
 			for (int i=8; i<11; i++) 
 				assertNull("x,y = "+i+"0",board.getCraft(new Coordinate2D(i,0)));
 		}
@@ -211,7 +208,7 @@ public class BoardTestP2 {
 		  board.addCraft(galeon, new Coordinate2D(0,1));
 		  board.addCraft(fragata, new Coordinate2D(2,0));
 		  fail ("No se produjo la excepcion");
-		} catch (CoordinateException e) {
+		} catch (BattleshipException e) {
 		  for (int i=3; i<6; i++) 
 			assertNull("x,y = "+i+"2",board.getCraft(new Coordinate2D(i,2)));
 		}
@@ -226,7 +223,7 @@ public class BoardTestP2 {
 		  board.addCraft(galeon, new Coordinate2D(0,1));
 		  board.addCraft(fragata, new Coordinate2D(1,0));
 		  fail ("Error no se produjo excepción");
-		} catch (CoordinateException e) {
+		} catch (BattleshipException e) {
 				for (int i=3; i<5; i++) 
 					assertNull("x,y = "+i+"2",board.getCraft(new Coordinate2D(i,2)));
 		}
@@ -237,7 +234,7 @@ public class BoardTestP2 {
 	 * 2- Se prueba getShip en todas las posiciones que ocupa el Ship
 	 */
 	@Test
-	public void testGetShip() throws CoordinateException {
+	public void testGetShip() throws BattleshipException {
 		board.addCraft(fragata, new Coordinate2D(3,1));
 		Coordinate c = new Coordinate2D(2,3);
 		assertNull(board.getCraft(c));
@@ -251,7 +248,7 @@ public class BoardTestP2 {
 	 * entre Board y Ship. 
 	 */
 	@Test
-	public void testAgregacionBoardShip() throws CoordinateException {
+	public void testAgregacionBoardShip() throws BattleshipException {
 	    board.addCraft(fragata, new Coordinate2D(3,1));
 		Coordinate c = new Coordinate2D(0,3);
 		for (int i=4; i<7; i++) {
@@ -264,7 +261,7 @@ public class BoardTestP2 {
     /* Se comprueba isSeen antes y después de disparar al agua
      * en un Board sin Ships */
 	@Test
-	public void testIsSeen1() throws CoordinateException {
+	public void testIsSeen1() throws BattleshipException {
 
 		for (int i=0; i<board.getSize(); i++)
 			for (int j=0; j<board.getSize(); j++) {
@@ -281,7 +278,7 @@ public class BoardTestP2 {
    * Coordinates vecinas del Ship también se han marcado como
    * vistas */
 	@Test
-	public void testIsSeen2() throws CoordinateException{
+	public void testIsSeen2() throws BattleshipException{
 		board.addCraft(galeon, new Coordinate2D(0,1));
 		for (int i=2; i<5; i++) {
 				assertFalse("x,y = 2,"+i,board.isSeen(new Coordinate2D(2,i)));
@@ -335,7 +332,7 @@ public class BoardTestP2 {
 	 * 
 	 */
 	@Test
-	public void testHit() throws CoordinateException {
+	public void testHit() throws BattleshipException {
 		board.addCraft(galeon, new Coordinate2D(5,5));
 		for (int i=5; i<board.getSize(); i++) 
 		  for (int j=5; j<board.getSize(); j++) {
@@ -363,7 +360,7 @@ public class BoardTestP2 {
 	 *    false.
 	 */
 	@Test
-	public void testAreAllCraftsDestroyed() throws CoordinateException{
+	public void testAreAllCraftsDestroyed() throws BattleshipException{
 		assertTrue("numCrafts=destroyedCrafts=0",board.areAllCraftsDestroyed());
 		board.addCraft(galeon, new Coordinate2D(0,1));
 		assertFalse("numCrafts=1; destroyedCrafts=0",board.areAllCraftsDestroyed());
@@ -417,7 +414,7 @@ public class BoardTestP2 {
 	 * Coordinate vecinas están dentro de Board.
 	 */
 	@Test
-	public void testGetNeighborhoodShipCompletelyIn1()throws CoordinateException {
+	public void testGetNeighborhoodShipCompletelyIn1()throws BattleshipException {
 		board.addCraft(fragata, new Coordinate2D(5,1));
 		Set<Coordinate> neighborhood = board.getNeighborhood(fragata);
 		assertEquals(12,neighborhood.size());
@@ -435,7 +432,7 @@ public class BoardTestP2 {
 	 * solo aquellas posiciones vecinas que están dentro del Board.
 	 */
 	@Test
-	public void testGetNeighborhoodShipCompletelyIn2() throws CoordinateException {
+	public void testGetNeighborhoodShipCompletelyIn2() throws BattleshipException {
 		board.addCraft(fragata, new Coordinate2D(6,-2));
 		Set<Coordinate> neighborhood = board.getNeighborhood(fragata);
 		assertEquals(5,neighborhood.size());
@@ -491,7 +488,7 @@ public class BoardTestP2 {
 	 * 
 	 */
 	@Test
-	public void testShowBoardWithShips() throws CoordinateException{
+	public void testShowBoardWithShips() throws BattleshipException{
 		board = new Board2D(5);
 		board.addCraft(galeon, new Coordinate2D(-2,-1));
 		board.addCraft(fragata, new Coordinate2D(1,-2));
@@ -515,7 +512,7 @@ public class BoardTestP2 {
 	 * Por último comparamos show(false) con 'sboardHide2'
 	 */
 	@Test
-	public void testShowBoardWithShipsAndHits() throws CoordinateException{
+	public void testShowBoardWithShipsAndHits() throws BattleshipException{
 		board = new Board2D(5);
 		board.addCraft(galeon, new Coordinate2D(-2,-1));
 		board.addCraft(fragata, new Coordinate2D(1,-2));
@@ -551,7 +548,7 @@ public class BoardTestP2 {
 	 * la salida correcta.
 	 */
 	@Test
-	public void testToString1()throws CoordinateException {
+	public void testToString1()throws BattleshipException {
 		board.addCraft(galeon, new Coordinate2D(0,1));
 		board.addCraft(fragata, new Coordinate2D(5,1));
 		board.addCraft(goleta, new Coordinate2D(0,5));
@@ -563,7 +560,7 @@ public class BoardTestP2 {
      * intercalando toString() comprobando que las salidas son correctas.
      */
 	@Test
-	public void testToString2()throws CoordinateException {		
+	public void testToString2()throws BattleshipException {		
 		board.addCraft(galeon, new Coordinate2D(0,1));	
 		board.addCraft(fragata, new Coordinate2D(3,1));	
 		//Destruimos el Ship galeon
@@ -585,7 +582,6 @@ public class BoardTestP2 {
 	
 	
 	/* FUNCIONES AUXILIARES */
-	@SuppressWarnings("unchecked")
 	Object getBoardField(Board board, String atribute) throws Exception {
 
 		// Sacamos el atributo privado (seen) de la clase (Board) 

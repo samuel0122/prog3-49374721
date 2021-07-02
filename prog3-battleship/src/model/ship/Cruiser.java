@@ -8,14 +8,14 @@ package model.ship;
 import model.Orientation;
 
 /**
- * Clase Cruiser, subclase de Ship. Tipo de barco con 3 posiciones.
+ * Barco con 3 posiciones.
  */
 public class Cruiser extends Ship {
 
 	/**
 	 * Constructor de la clase Cruiser. Llama al constructor de Ship con los datos y define su shape
 	 *
-	 * @param o the o
+	 * @param o Orientacion del barco.
 	 */
 	public Cruiser(Orientation o) {
 		super(o, 'Ø', "Cruiser");
@@ -43,4 +43,13 @@ public class Cruiser extends Ship {
 			0, 0, 0, 0, 0}}; 
 	}
 
+	/**
+	 * Getter del valor del cruiser.
+	 * 
+	 * @return Valor por destruir el Cruiser.
+	 */
+	@Override
+	public int getValue() {
+		return 5;
+	}
 }

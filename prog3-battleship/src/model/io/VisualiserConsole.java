@@ -8,18 +8,17 @@ import java.util.Objects;
 import model.Game;
 
  /**
-  * Clase VisualiserConsole. Permite producir un GIF animado
-  * que representa la partida
+  * Clase que permite imprimir la partida por pantalla.
   */
 public class VisualiserConsole implements IVisualiser {
-	/** Game en donde guardamos la partida a representar */
+	/** Partida a representar */
 	private Game game;
 
 	/**
 	 * Constructor VisualiserConsole que recibe un Game que no puede ser null
 	 * 
-	 * @param g
-	 * @throws NullPointerException
+	 * @param g Partida a representar.
+	 * @throws NullPointerException Si el game introducido es nulo.
 	 */
 	public VisualiserConsole (Game g) {
 		Objects.requireNonNull(g);
@@ -27,7 +26,7 @@ public class VisualiserConsole implements IVisualiser {
 	}
 	
 	/**
-	 * Metodo show que imprime la partida
+	 * Imprime la partida en la consola.
 	 */
 	@Override
 	public void show() {
@@ -35,7 +34,7 @@ public class VisualiserConsole implements IVisualiser {
 	}
 
 	/**
-	 * Metodo close que no hace nada en esta clase
+	 * No hace nada.
 	 */
 	@Override
 	public void close() { }

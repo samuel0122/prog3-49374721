@@ -1,3 +1,6 @@
+/**
+ * @author Samuel Oliva
+ */
 package model.io;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +28,7 @@ import model.ship.Coordinate2D;
 
 public class  PlayerFilePreTest { 
 	
-	final static String DIRFILES = "pre-test/files/";
+	final static String DIRFILES = "files/";
 	final int SIZE = 6;
 	static String sboard0, sboard1;
 	Board board2d, board3d;
@@ -69,13 +72,14 @@ public class  PlayerFilePreTest {
 		assertEquals("Saul (PlayerFile)",ip.getName());
 	}
 
-	//TODO
 	//TESTS PARA putCraft
 	/* Crea un fichero vacío, donde indica la constante DIRFILES, y comprueba que putCrafts(board2d) deja a board2d invariable. 
 	 * El atributo sboard0 contiene el tablero vacío*/
 	@Test
 	public void testPutCraftsEmptyFile() throws BattleshipIOException, InvalidCoordinateException, NextToAnotherCraftException, OccupiedCoordinateException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Ramon",DIRFILES+"putCraftEmpty.in");
+		ip.putCrafts(board2d);
+		assertEquals(sboard0, board2d.show(true));
 	}
 	
 	/* Comprueba un fichero que solo contiene puts */
@@ -86,21 +90,25 @@ public class  PlayerFilePreTest {
 		assertEquals(sboard1, board2d.show(true));
 	}
 	
-	//TODO
+
 	/* Crea un fichero, donde indica la constante DIRFILES, que contenga varios puts y un endput al final y pruébalo sobre el tablero board2d
 	 * Comprueba que los Ship se posicionan correctamente */
 	@Test
 	public void testPutCraftsOk2() throws BattleshipIOException, InvalidCoordinateException, NextToAnotherCraftException, OccupiedCoordinateException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Momo",DIRFILES+"putCrafts2.in");
+		ip.putCrafts(board2d);
+		assertEquals(sboard1, board2d.show(true));
 	}
 	
 	
-	//TODO
+	
 	/* Crea un fichero, donde indica la constante DIRFILES, con varios puts, añade luego un endput y otro put más después. Comprueba que no se 
 	 * puso el Craft último. Vuelve a comprobar lo mismo con otro fichero, poniendo exit al inicio */
 	@Test
 	public void testPutCraftsOk3() throws BattleshipIOException, InvalidCoordinateException, NextToAnotherCraftException, OccupiedCoordinateException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Meme",DIRFILES+"putCrafts3.in");
+		ip.putCrafts(board2d);
+		assertEquals(sboard1, board2d.show(true));
 	}	
 	
 	/* Aparece al final el comando shoot sin que aparezca un endput antes*/
@@ -117,29 +125,48 @@ public class  PlayerFilePreTest {
 		}
 	}
 	
-	//TODO
+
 	/* Crea un fichero, donde indica la constante DIRFILES, donde en una línea aparezca un Aircraft y una Coordinate3D 
 	 * e inténtalo poner en un Board2D. Comprueba que se lanza la excepción IllegalArgumentException */
 	@Test
 	public void testPutCraftsWrong2() throws BattleshipIOException, InvalidCoordinateException, NextToAnotherCraftException, OccupiedCoordinateException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Saul",DIRFILES+"putCraftsWrong2.in");
+		try {
+		   ip.putCrafts(board2d);
+		   fail("Error: se debió lanzar IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			assertEquals(sboard0,board2d.show(true));
+		}
 		
 	}
 	
-	//TODO
+	
 	/* Crea un fichero, en el directorio que indica la constante DIRFILES, donde haya una orden incorrecta. Comprueba que putCrafts lanza la excepción 
 	 * BattleshipIOExeption */
 	@Test
 	public void testPutCraftsWrong3() throws BattleshipIOException, InvalidCoordinateException, NextToAnotherCraftException, OccupiedCoordinateException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Manuel",DIRFILES+"putCraftsWrong3.in");
+		try {
+		   ip.putCrafts(board2d);
+		   fail("Error: se debió lanzar BattleshipIOException");
+		} catch (BattleshipIOException e) {
+			assertNotNull(e.getMessage());
+			assertTrue (e.getMessage().length()>1);
+			assertEquals(sboard0,board2d.show(true));
+		}
 	}
 	
-	//TODO
+
 	/* Crea un fichero, en el directorio que indica la constante DIRFILES, con órdenes put, con varios espacios en blanco y tabuladores entre put, orientación y coordenadas
 	 * Comprueba que los Craft se han añadido */
 	@Test
 	public void testPutCraftsWithSpaces() throws BattleshipIOException,  NextToAnotherCraftException, OccupiedCoordinateException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Samuel",DIRFILES+"testPutCraftsWithSpaces.in");
+		try {
+		   ip.putCrafts(board2d);
+		} catch (InvalidCoordinateException e) {
+			fail(e.toString());
+		}
 	}
 	
 	//TODO
@@ -177,12 +204,29 @@ public class  PlayerFilePreTest {
 		assertNull(ip.nextShoot(board2d));
 	}
 	
-	//TODO
+	
     /* Crea un fichero, en el directorio que indica la constante DIRFILES, con una orden put y una endput. Comprueba que nextShoot lanza en ambos casos la excepción 
      * BattleshipIOException  */
 	@Test
 	public void testNextShootWrong1() throws BattleshipIOException, InvalidCoordinateException, CoordinateAlreadyHitException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Manuel",DIRFILES+"nextShootWrong1.in");
+		try {
+		   ip.nextShoot(board2d);
+		   fail("Error: se debió lanzar BattleshipIOException");
+		} catch (BattleshipIOException e) {
+			assertNotNull(e.getMessage());
+			assertTrue (e.getMessage().length()>1);
+			assertEquals(sboard0,board2d.show(true));
+		}
+		try {
+			   ip.nextShoot(board2d);
+			   fail("Error: se debió lanzar BattleshipIOException");
+		} catch (BattleshipIOException e) {
+				assertNotNull(e.getMessage());
+				assertTrue (e.getMessage().length()>1);
+				assertEquals(sboard0,board2d.show(true));
+		}
+		
 	}
 	
 	//TODO
@@ -191,7 +235,23 @@ public class  PlayerFilePreTest {
 	 */
 	@Test
 	public void testNextShootWrong2() throws BattleshipIOException, InvalidCoordinateException, CoordinateAlreadyHitException {
-		fail("Realiza el test");
+		IPlayer ip = PlayerFactory.createPlayer("Manuel",DIRFILES+"nextShootWrong2.in");
+		for(int i =0; i<4; i++) {
+			try {
+				   ip.nextShoot(board2d);
+				   fail("Error: se debió lanzar BattleshipIOException");
+				} catch (BattleshipIOException e) {
+					assertNotNull(e.getMessage());
+					assertTrue (e.getMessage().length()>1);
+					assertEquals(sboard0,board2d.show(true));
+				}
+		}
+		try {
+			   assertNull(ip.nextShoot(board2d));
+			   
+			} catch (BattleshipIOException e) {
+				fail("Error: no se debió lanzar BattleshipIOException");
+			}
 	}
 	
 	/* Se pasa un Board null a nextShoot. Debe lanzar NullPointerException */

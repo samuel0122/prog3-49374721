@@ -9,16 +9,16 @@ import model.aircraft.Coordinate3D;
 import model.ship.Coordinate2D;
 
 /**
- * Un factory para crear objetos Coordinate.
+ * Factorias de coordenadas.
  */
 public class CoordinateFactory {
 	
 	/**
-	 * Create Coordinate. Crea un Coordinate2D o Coordinate 3D dependiendo de cuantos enteros recibe como parametro.
+	 * Crea una coordenada 2D o 3D cuando se introducen 2 o 3 argumentos, respectivamente.
 	 *
-	 * @param coords the coords
-	 * @return Coordinate2D, Coordinate 3D
-	 * @throws IllegalArgumentException the illegal argument exception
+	 * @param coords Componentes de la coordenada a crear.
+	 * @return Coordenada de las dimensiones especificadas.
+	 * @throws IllegalArgumentException si se intenta crear una coordenada de dimensiones no soportadas.
 	 */
 	public static Coordinate createCoordinate(int ... coords) {
 		if(coords.length==2){

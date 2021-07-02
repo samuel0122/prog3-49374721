@@ -12,22 +12,22 @@ import model.Coordinate;
 @SuppressWarnings("serial")
 public abstract class CoordinateException extends BattleshipException {
 	
-	/** Coordinate c. */
+	/** Coordenada que provoca el error. */
 	private Coordinate c;
 	
 	/**
 	 * Constructor de BattleshipExceptions que guarda la coordenada.
 	 *
-	 * @param c the c
+	 * @param c Coordenada que provoca el error.
 	 */
 	public CoordinateException(Coordinate c) {
 		this.c = c;
 	}
 	
 	/**
-	 * Get message que devuelve la coordenada guardada.
+	 * Obtiene la coordenada guardada.
 	 *
-	 * @return String coordenadaDeError
+	 * @return Coordenada de error.
 	 */
 	public String getMessage() {
 		return "Error con la coordenada "+c.toString()+": ";

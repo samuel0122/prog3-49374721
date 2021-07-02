@@ -1,3 +1,6 @@
+/**
+ * @author Samuel Oliva
+ */
 package model;
 
 import static org.junit.Assert.assertEquals;

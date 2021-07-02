@@ -7,17 +7,17 @@ import java.io.*;
 import model.exceptions.io.BattleshipIOException;
 
 /**
- * Clase Player Factory, que crea un PlayerFile o un PlayerRandom
+ * Factoria que crea un PlayerFile o un PlayerRandom.
  */
 public class PlayerFactory {
 	
 	/**
-	 * Metodo createPlayer, devuelve el tipo de player que se pide
-	 * 
-	 * @param String playerName
-	 * @param String FileName or seed
-	 * @return IPlayer playerType
-	 * @throws BattleshipIOException
+	 * Metodo createPlayer, devuelve el tipo de player que se pide.
+	 *
+	 * @param playerName Nombre del jugador.
+	 * @param fileORseed Fichero o semilla con el generar los comandos del jugador.
+	 * @return Jugador del tipo PlayerFile o PlayerRandom, si se introdujo un fichero o una semilla.
+	 * @throws BattleshipIOException Si se produce un error buscando el fichero.
 	 */
 	public static IPlayer createPlayer(String playerName, String fileORseed) throws BattleshipIOException {
 		try {

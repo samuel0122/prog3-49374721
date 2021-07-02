@@ -4,15 +4,14 @@
 package model;
 
 /**
- * Clase Enum CellStatus.
+ * Enum que establece los estados de las casillas del board.
  */
 public enum CellStatus {
-    
-    /** The water. */
-    WATER, 
- /** The hit. */
- HIT, 
- /** The destroyed. */
- DESTROYED;
+    /** Estado agua de una casilla del board. */
+    WATER,
+    /** Estado navio golpeado de una casilla del board. */
+    HIT, 
+    /** Estado navio destruido de una casilla del board. */
+    DESTROYED;
 }
 

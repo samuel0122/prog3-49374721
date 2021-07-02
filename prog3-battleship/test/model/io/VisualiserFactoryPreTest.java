@@ -1,3 +1,6 @@
+/**
+ * @author Samuel Oliva
+ */
 package model.io;
 
 import static org.junit.Assert.*;

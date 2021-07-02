@@ -14,9 +14,9 @@ import model.Orientation;
 public class Fighter extends Aircraft {
 
 	/**
-	 * Constructor de la clase Fighter. Llama al constructor de Aircraft con los datos y define su shape
-	 *
-	 * @param o the o
+	 * Constructor de la clase Fighter. 
+	 * 
+	 * @param o Orientacion del avion.
 	 */
 	public Fighter (Orientation o) {
 		super(o, '⇄', "Fighter");
@@ -42,6 +42,16 @@ public class Fighter extends Aircraft {
 			0, 1, 1, 1, 1,	
 			0, 0, 1, 0, 0,
 			0, 0, 0, 0, 0}};
+	}
+
+	/**
+	 * Getter del valor del navio.
+	 * 
+	 * @return Puntos por destruir el Fighter.
+	 */
+	@Override
+	public int getValue() {
+		return 10;
 	}
 
 

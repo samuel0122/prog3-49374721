@@ -1,6 +1,5 @@
 /**
-  	@author Samuel Oliva Bulpitt
- 
+ * 	@author Samuel Oliva Bulpitt
  */
 package model;
 
@@ -9,16 +8,15 @@ import java.util.*;
 import model.exceptions.*;
 
 /**
- * Clase Board.
+ * Tablero que almacena las coordenadas y los navios guardados.
  */
-
 public abstract class Board {
 
 	/** Constante HIT_SYMBOL. Representa el simbolo a dibujar en partes de un navio golpeado. */
 	public static final char HIT_SYMBOL = '•';
 	/** Constante WATER_SYMBOL. Representa el simbolo a dibujar en coordenadas donde no hay ningun navio. */
 	public static final char WATER_SYMBOL = ' ';
-	/** Constante NOTSEEN_SYMBOL. Representa las coordenadas no interaccionadas cuando unveil sea false. */
+	/** Constante NOTSEEN_SYMBOL. Representa las coordenadas no interaccionadas cuando se muestre el tablero en modo oculto. */
 	public static final char NOTSEEN_SYMBOL = '?';
 	/** Constante MAX_BOARD_SIZE. Indica el tamaño maximo que un tablero puede tener. */
 	protected static final int MAX_BOARD_SIZE = 20;
@@ -41,8 +39,8 @@ public abstract class Board {
 	/**
 	 * Constructor de Board. Recibe el tamaño deseado y comprueba que sea correcto. 
 	 *
-	 * @param size the size
-	 * @throws IllegalArgumentException the illegal argument exception
+	 * @param size Tamaño del tablero creado.
+	 * @throws IllegalArgumentException si se introduce un tamaño incorrecto.
 	 */
 	public Board(int size) {
 		numCrafts = 0;
@@ -59,34 +57,32 @@ public abstract class Board {
 	}
 
 	/**
-	 * Getter de size. Devuelve el tamaño del tablero.
-	 *
-	 * @return int size
+	 * Getter de size. 
+	 * @return size del tablero.
 	 */
 	public int getSize() { return size; }
 
 	/**
-	 * Check coordinate.
+	 * Comprueba si la coordenada es correcta.
 	 *
-	 * @param c the c
-	 * @return true, if successful
+	 * @param c Coordenada a comprobar.
+	 * @return true, si la coordenada es valida.
 	 */
 	public abstract boolean checkCoordinate(Coordinate c);
 	
 	/**
-	 * Show.
+	 * Representa el tablero en un String.
 	 *
-	 * @param unveil the unveil
-	 * @return the string
+	 * @param unveil Debe ser true si se quiere mostrar todos los elementos del tablero.
+	 * @return Representación del tablero en String.
 	 */
 	public abstract String show (boolean unveil);
 	
 	/**
-	 * Get Craft. Metodo que recibe una coordenada y devuelve el navio 
-	 * que tenga alguna posicion en esa coordenada, o nulo si no hay ninguno ocupando esa Coordenada
+	 * Devuelve el navio que se encuentra en una coordenada.
 	 *
-	 * @param c the c
-	 * @return Craft navio
+	 * @param c Coordenada ocupada por el navio que se busca.
+	 * @return El navio que ocupa la coordenada o null si no hay ninguno.
 	 */
 	
 	public Craft getCraft(Coordinate c) {
@@ -115,12 +111,14 @@ public abstract class Board {
 	}
 
 	/**
-	 * Añade un navio al Map Board si la posición es valida.
+	 * Añade un navio en el tablero si la posición es valida.
 	 *
-	 * @param craft the craft
-	 * @param c the c
+	 * @param craft Navio a añadir en el tablero.
+	 * @param c Coordenada perteneciente a la esquina superior izquierda del navio.
 	 * @return true, si se añade con éxito el navio.
-	 * @throws CoordinateException the battleship exception
+	 * @throws InvalidCoordinateException si la coordenada es incorrecta.
+	 * @throws OccupiedCoordinateException si se intenta añadir un navio en una posicion ya ocupada.
+	 * @throws NextToAnotherCraftException si se intenta colocar al lado de otro navio.
 	 */
 	public boolean addCraft(Craft craft, Coordinate c) throws InvalidCoordinateException, OccupiedCoordinateException,  NextToAnotherCraftException {
 		Set <Coordinate> positions = craft.getAbsolutePositions(c);
@@ -158,9 +156,9 @@ public abstract class Board {
 
 	
 	/**
-	 * Checks if is seen. Devuelve true si la coordenada pasada ya es conocida por el rival o false si no lo es.
+	 * Comprueba si la coordenada ya fue interactuada.
 	 *
-	 * @param c the c
+	 * @param c Coordenada a comprobar.
 	 * @return true, si la coordenada es conocida.
 	 */
 	public boolean isSeen(Coordinate c) {
@@ -171,14 +169,12 @@ public abstract class Board {
 	}
 
 	/**
-	 * Hit. Simula un disparo. Añade la coordenada a la lista seen para guardarlo como coordenada interactuada
-	 * y devuelve lo que ocurre en esa coordenada, si cae en agua, si golpea a un navio o si
-	 * destruye un navio con ello.
+	 * Simula un disparo.
 	 *
-	 * @param c the c
-	 * @return CellStatus de la coordenada
-	 * @throws CoordinateAlreadyHitException the coordinate already hit exception
-	 * @throws InvalidCoordinateException the invalid coordinate exception
+	 * @param c Coordenada en donde disparar.
+	 * @return Estado resultante de la casilla.
+	 * @throws CoordinateAlreadyHitException si se golpea a una coordenada ya golpeada.
+	 * @throws InvalidCoordinateException si se golpea a una coordenada no valida.
 	 */
 	public CellStatus hit (Coordinate c) throws CoordinateAlreadyHitException, InvalidCoordinateException {
 		
@@ -214,10 +210,9 @@ public abstract class Board {
 	}
 
 	/**
-	 * Are all craft destroyed. Devuelve true si todos los ships del tablero 
-	 * fueron destruidos o false aun hay barcos con alguna posicion sin golpear
+	 * Comprueba si todos los navios del tablero fueron destruidos.
 	 *
-	 * @return true, if successful
+	 * @return true, si todos los navios son destruidos.
 	 */
 	public boolean areAllCraftsDestroyed() {
 		if(destroyedCrafts == numCrafts)
@@ -229,9 +224,10 @@ public abstract class Board {
 	 * Gets the neighborhood. Devuelve una lista con todas las coordenadas vecinas al navio si lo colocara ahi.
 	 * Las posiciones propias del ship no cuentan
 	 *
-	 * @param navio the navio
-	 * @param position the position
-	 * @return Set neighbors, coordenadas vecinas
+	 * @param navio El navio del cual queremos obtener las coordenadas adyacentes.
+	 * @param position Coordenada en la que está colocada en navio.
+	 * @return Coordenadas adyacentes al navio.
+	 * @throws NullPointerException si los parametros son nulos.
 	 */
 	public Set<Coordinate> getNeighborhood(Craft navio, Coordinate position) {
 		Objects.requireNonNull(position);

@@ -6,6 +6,7 @@ package model.io;
 import java.util.Random;
 
 import model.Board;
+import model.CellStatus;
 import model.Coordinate;
 import model.CoordinateFactory;
 import model.Craft;
@@ -15,23 +16,28 @@ import model.aircraft.Board3D;
 import model.exceptions.BattleshipException;
 import model.exceptions.CoordinateAlreadyHitException;
 import model.exceptions.InvalidCoordinateException;
+import model.exceptions.NextToAnotherCraftException;
+import model.exceptions.OccupiedCoordinateException;
+import model.exceptions.io.BattleshipIOException;
 import model.ship.Board2D;
 
 /**
- * Clase PlayerRandom, utiliza numeros aleatorios para jugar una partida
+ * Jugador que utiliza numeros aleatorios para jugar una partida.
  */
 public class PlayerRandom implements IPlayer {
 
 	/**	Generador de numeros aleatorios usando una semilla. */
 	private Random random;
-	/** String name del jugador. */
+	/** Nombre del jugador. */
 	private String name;
+	/** Estado de la ultima celda golpeada */
+	private CellStatus lastShotStatus;
 	
 	/**
-	 * Constructor de PlayerRandom
+	 * Constructor de PlayerRandom.
 	 * 
-	 * @param String name del jugador.
-	 * @param long seed para inicializar random
+	 * @param name Nombre del jugador.
+	 * @param seed Semilla para generar numeros aleatorios.
 	 */
 	public PlayerRandom(String name, long seed) {
 		this.random = new Random(seed);
@@ -39,24 +45,21 @@ public class PlayerRandom implements IPlayer {
 	}
 	
 	/**
-	 * Getter del nombre.
+	 * Obtiene el nombre y tipo del jugador.
 	 * 
-	 * @return String nombre del jugador
+	 * @return Nombre y tipo del jugador.
 	 */
 	@Override
 	public String getName() { return this.name+" (PlayerRandom)";	}
 
 	/**
-	 * putCrafts de PlayerRandom. 
-	 * Genera una orientacion aleatoria y una coordenada aleatoria por cada navio.
-	 * Hay un limite de 100 coordenadas aleatorias generadas, si este se supera se deja el board como esta
-	 * sin terminar de añadir todos los Crafts.
-	 * 
-	 * @param Board b, puede ser 2D o 3D
+	 * Coloca los navios del jugador en el tablero.
+	 *
+	 * @param b Tablero en donde colocar un navio.
 	 */
 	@Override
 	public void putCrafts(Board b) {
-		String [] ordenNavios = { "Battleship", "Carrier", "Cruiser", "Destroyer", "Bomber", "Fighter", "Transport" };
+		String [] ordenNavios = { "ship.Battleship", "ship.Carrier", "ship.Cruiser", "ship.Destroyer", "aircraft.Bomber", "aircraft.Fighter", "aircraft.Transport" };
 		int cantidadCoordAleatorias;
 		
 		int cantidadNavios;
@@ -97,37 +100,37 @@ public class PlayerRandom implements IPlayer {
 	}
 
 	/**
-	 * nextShoot() de PlayerRandom.
-	 * Genera una coordenada aleatoria en el que dispara al board.
+	 * Simula el siguiente disparo del jugador en el tablero introducido.
 	 * 
-	 * @param Board b, puede ser 2D o 3D
-	 * @throws CoordinateAlreadyHitException
-	 * @throws InvalidCoordinateException
+	 * @param b Tablero al que disparar.
+	 * @return Coordenada en donde se golpeó.
+	 * @throws CoordinateAlreadyHitException Si se intenta disparar en una coordenada ya golpeada.
+	 * @throws InvalidCoordinateException Si se intenta disparar en una coordenada fuera del tablero.
 	 */
 	@Override
 	public Coordinate nextShoot(Board b) throws CoordinateAlreadyHitException, InvalidCoordinateException {
 		Coordinate c = genRandomCoordinate( b, 0);
-		b.hit(c);
+		this.lastShotStatus=b.hit(c);
 		return c;
 	}
 	
 	/**
-	 * Metodo genRandomInt, devuelve un numero aleatorio entre dos numeros
+	 * Obtiene un numero aleatorio entre dos numeros.
 	 * 
-	 * @param int maximo
-	 * @param int minimo
-	 * @return int numero Entre Max Y Min
+	 * @param min Valor mínimo a generar.
+	 * @param max Valor máximo a generar.
+	 * @return Numero aleatorio entre min y max.
 	 */
 	private int genRandomInt(int min, int max) { 
 	    return random.nextInt(max-min)+min;
 	}
+	
 	/**
-	 * Metodo genRandomCoordinate que crea un coordinate aleatorio dependiendo de
-	 * en que tipo de tabla se pase
+	 * Obtiene una coordenada aleatoria para el tablero introducido.
 	 * 
-	 * @param Board b, puede ser 3D o 2D
-	 * @param int offset, permite que las coordenadas sean negativas restandolo al minimo
-	 * @return Coordinate coordenada aleatorio
+	 * @param b Tablero 2D o 3D para el que se desea obtener una coordenada.
+	 * @param offset Valor que permite que las coordenadas sean negativas restandolo al minimo.
+	 * @return Coordenada aleatoria para el tablero introducido.
 	 */
 	private Coordinate genRandomCoordinate (Board b, int offset) {
 		int x = genRandomInt(0-offset,  b.getSize());
@@ -139,5 +142,15 @@ public class PlayerRandom implements IPlayer {
 		} else  //Si es una tabla 2D, creamos coordinate 2D
 			return CoordinateFactory.createCoordinate(x, y);
 		
+	}
+	
+	/**
+	 * Obtiene el estado de la ultima coordenada golpeada.
+	 * 
+	 * @return Estado del ultimo golpe.
+	 */
+	@Override
+	public CellStatus getLastShotStatus() {
+		return this.lastShotStatus;
 	}
 }

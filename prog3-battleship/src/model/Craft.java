@@ -13,7 +13,7 @@ import model.ship.*;
 import model.exceptions.*;
 
 /**
- * Clase Craft.
+ * Navios.
  */
 public abstract class Craft {
 
@@ -39,9 +39,9 @@ public abstract class Craft {
 	/**
 	 * Contructor de Craft. Inicializa el navio con posicion null.
 	 *
-	 * @param orient the orient
-	 * @param sym the sym
-	 * @param nom the nom
+	 * @param orient Orientación del navio.
+	 * @param sym Símbolo para representar el navio.
+	 * @param nom Nombre del navio.
 	 */
 	public Craft(Orientation orient, char sym, String nom) {
 		orientation = orient;
@@ -49,11 +49,18 @@ public abstract class Craft {
 		name = nom;
 	  	position = null;
 	}
-
+	
+	/**
+	 * Getter del valor del navio.
+	 *
+	 * @return Los puntos que se obtiene al destruir este tipo de navio.
+	 */
+	public abstract int getValue();
+	
 	/**
 	 * Getter de la posicion.
 	 *
-	 * @return Coordinate position
+	 * @return Coordenada de posicion del navio.
 	 */
 	public Coordinate getPosition() {
 		if(position!=null) 
@@ -66,44 +73,43 @@ public abstract class Craft {
 	/**
 	 * Setter de position.
 	 *
-	 * @param posicion the new position
+	 * @param posicion Coordenada en donde posicionar el navio.
 	 */
 	public void setPosition(Coordinate posicion) { this.position = posicion.copy(); }
 
 	/**
 	 * Getter del name.
 	 *
-	 * @return String name
+	 * @return Nombre del navio.
 	 */
 	public String getName() { return name; }
 
 	/**
 	 * Getter de orientation.
 	 *
-	 * @return Orientation orientacion
+	 * @return Orientacion del navio.
 	 */
 	public Orientation getOrientation() { return orientation; }
 
 	/**
 	 * Getter de symbol.
 	 *
-	 * @return Char symbol
+	 * @return Simbolo para representar el navio.
 	 */
 	public char getSymbol() { return symbol; }
 
 	/**
 	 * Getter de shape.
 	 *
-	 * @return Array int shape
+	 * @return Shape del navio.
 	 */
 	public int [][] getShape() { return shape; }
 
 	/**
-	 * GetRelativePosition. Método privado añadido que recibe una coordenada absoluta y lo transforma
-	 * en la coordenada relativa del ship usando su posicion
-	 *
-	 * @param c the c
-	 * @return Coordinate relativa cRel
+	 * Transforma una coordenada del tablero en la coordenada relativa del navio.
+	 * 
+	 * @param c Coordenada absoulta del tablero.
+	 * @return La coordenada respecto al shape del navio.
 	 */
 	
 	private Coordinate getRelativePosition(Coordinate c) {
@@ -115,9 +121,9 @@ public abstract class Craft {
 	/**
 	 * Recibe una coordenada del navio y devuelve el indice al que pertenece en shape.
 	 *
-	 * @param c the c
-	 * @return Int posicion del shape
-	 * @throws NullPointerException the null pointer exception
+	 * @param c Coordenada relativa del navio.
+	 * @return Posición de la coordenada dentro del array de shape.
+	 * @throws NullPointerException Si la coordenada es nula.
 	 */
 	public int getShapeIndex(Coordinate c) {
 		Objects.requireNonNull(c);
@@ -126,12 +132,11 @@ public abstract class Craft {
 	}
 
 	/**
-	 * Devuelve una lista con todas las posiciones absolutas del navio, sean o no
-	 * alcanzadas. Las coordenadas absolutas son las que se encuentran en el board.
-	 *
-	 * @param c the c
-	 * @return Set Coordinate AbsolutePositions
-	 * @throws NullPointerException the null pointer exception
+	 * Devuelve una lista con todas las posiciones en el tablero del navio, sean o no alcanzadas. 
+	 * 
+	 * @param c Coordenada en el tablero del navio.
+	 * @return Conjunto de coordenadas en el tablero de las posiciones del navio.
+	 * @throws NullPointerException Si la coordenada es nula.
 	 */
 	public Set<Coordinate> getAbsolutePositions(Coordinate c) {
 		Objects.requireNonNull(c);
@@ -150,19 +155,18 @@ public abstract class Craft {
 	}
 
 	/**
-	 * Devuelve las coordenadas absolutas del navio utilizando la posicion ya establecida a este.
+	 * Obtiene las coordenadas absolutas del navio utilizando la posicion ya establecida a este.
 	 *
-	 * @return Set Coordinate absolutePositions
+	 * @return Conjunto de coordenadas absolutas del navio en el tablero.
 	 */
 	public Set<Coordinate> getAbsolutePositions() { return getAbsolutePositions(position); }
 
 	/**
-	 * Hit. Imita el choque de un disparo dentro del shape del navio. Mira si hay la posicion del ship no está golpeada para simular el golpe y cambiarle el
-	 * estado a hit. Devuelve true si ha habido un choque o false si no 
+	 * Simula un disparo en el shape del navio y comprueba si es una posición a golpear.
 	 *
-	 * @param c the c
-	 * @return true, si golpea al navio
-	 * @throws CoordinateAlreadyHitException the coordinate already hit exception
+	 * @param c Coordenada del tablero a disparar.
+	 * @return true, si se alcanza una posicion del navio.
+	 * @throws CoordinateAlreadyHitException Si se golpea a una posicion ya alcanzada.
 	 */
 	public boolean hit(Coordinate c) throws CoordinateAlreadyHitException {
 		
@@ -179,9 +183,9 @@ public abstract class Craft {
 	}
 
 	/**
-	 * Comprueba si si el navio ya tiene todas sus posiciones alcanzadas.
+	 * Comprueba si el navio ya tiene todas sus posiciones alcanzadas.
 	 *
-	 * @return true, si esta destruido
+	 * @return true, si esta destruido.
 	 */
 	public boolean isShotDown() {
 		
@@ -196,11 +200,10 @@ public abstract class Craft {
 	}
 
 	/**
-	 * Checks if is hit. Comprueba si la coordenada contiene una posicion del navio
-	 * golpeado o si no fue golpeado o no hay una posicion del navio ahi.
+	 * Comprueba si la coordenada contiene una posicion del navio golpeada.
 	 *
-	 * @param c the c
-	 * @return true, si la coordenada esta golpeada
+	 * @param c Coordenada absoluta a comprobar.
+	 * @return true, si la coordenada fue golpeada.
 	 */
 	public boolean isHit(Coordinate c) {
 		
@@ -213,7 +216,7 @@ public abstract class Craft {
 	/**
 	 * To string. Devuelve el nombre, la orientacion y el dibujo del navio.
 	 *
-	 * @return String navio
+	 * @return Representación del navio.
 	 */
 	public String toString() {
 		String dibujo = name + " (" + getOrientation()+")\n ";

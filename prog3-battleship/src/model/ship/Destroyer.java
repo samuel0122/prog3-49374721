@@ -8,14 +8,14 @@ package model.ship;
 import model.Orientation;
 
 /**
- * Clase Destroyer, subclase de Ship. Tipo de barco con 2 posiciones.
+ * Barco con 2 posiciones.
  */
 public class Destroyer extends Ship {
 
 	/**
-	 * Constructor de la clase Destroyer. Llama al constructor de Ship con los datos y define su shape
+	 * Constructor de la clase Destroyer. 
 	 *
-	 * @param o the o
+	 * @param o Orientacion del barco.
 	 */
 	public Destroyer(Orientation o) {
 		super(o, 'Ω', "Destroyer");
@@ -41,6 +41,16 @@ public class Destroyer extends Ship {
 			0, 1, 1, 0, 0,	
 			0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0}};
+	}
+	
+	/**
+	 * Getter del valor del destroyer.
+	 * 
+	 * @return Valor por destruir el Destroyer.
+	 */
+	@Override
+	public int getValue() {
+		return 3;
 	}
 
 }

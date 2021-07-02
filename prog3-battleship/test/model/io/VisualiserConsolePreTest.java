@@ -1,3 +1,6 @@
+/**
+ * @author Samuel Oliva
+ */
 package model.io;
 
 import static org.junit.Assert.*;
@@ -19,7 +22,7 @@ import model.aircraft.Board3D;
 import model.ship.Board2D;
 
 public class VisualiserConsolePreTest {
-	final String DIRFILES="pre-test/files/";
+	final String DIRFILES="test/files/";
 	Game game,gamerr1, gamerr2;
 	IPlayer player1, player2; 
 	Board board1, board2;

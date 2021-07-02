@@ -14,17 +14,19 @@ import model.io.gif.*;
 import model.ship.Board2D;
 
 /**
- *Clase VisualiserGIF, permite crear GIF animados de la partida.
+ * Clase que permite crear un GIF animado que representa la partida.
  */
 public class VisualiserGIF implements IVisualiser {
-	/** Game game, guarda la partida a representar */
+	/** Partida a representar */
 	private Game game;
-	/** AnimatedGID agif, donde guardaremos los frames */
+	/** GIF donde guardaremos los frames */
 	private AnimatedGIF agif;
 	
 	/**
-	 * Constructor de la clase VisualiserGIF
-	 * @param Game g
+	 * Constructor de la clase VisualiserGIF.
+	 * 
+	 * @param g Partida a convertir en GIF.
+	 * @throws NullPointerException Si el game introducido es nulo.
 	 */
 	public VisualiserGIF(Game g) {
 		Objects.requireNonNull(g);
@@ -33,8 +35,7 @@ public class VisualiserGIF implements IVisualiser {
 	}
 	
 	/**
-	 * Metodo show, guarda en agif el frame del estado de la partida actual. Dibuja el board1
-	 * encima del board2, sin importar que sean 2D o 3D.
+	 * Guarda el frame del turno de la partida representando board1 encima de board2.
 	 */
 	@Override
 	public void show() {
@@ -114,7 +115,7 @@ public class VisualiserGIF implements IVisualiser {
 	}
 	
 	/**
-	 * Metodo Close, guarda el agif actual en un fichero.gif
+	 * Guarda el agif actual en un fichero.
 	 */
 	@Override
 	public void close() {

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import model.Board;
+import model.CellStatus;
 import model.Coordinate;
 import model.CoordinateFactory;
 import model.Craft;
@@ -21,40 +22,45 @@ import model.exceptions.OccupiedCoordinateException;
 import model.exceptions.io.BattleshipIOException;
 
 /**
- * Clase PlayerFile para jugar leyendo comandos de un archivo de texto.
+ * Jugador que juega a partir de un fichero.
  *
  */
 public class PlayerFile implements IPlayer {
-	/** BufferedReader br, buffer en donde se guarda el fichero leido pasado por el constructor. */
+	/** Buffer en donde se guarda el fichero leido pasado por el constructor. */
 	private BufferedReader br;
-	/** String name, nombre del jugador. */
+	/** Nombre del jugador. */
 	private String name;
+	/** Estado de la ultima celda golpeada */
+	private CellStatus lastShotStatus;
 	
 	/**
-	 * Constructor de PlayerFile
-	 * @param BufferedReader reader, el texto leido.
-	 * @param String name, nombre del jugador.
+	 * Constructor de PlayerFile.
+	 * @param reader Buffer de lectura del fichero en donde leer.
+	 * @param name Nombre del jugador.
 	 */
-	//HE CAMBIADO EL ORDEN DEL NAME Y READER
 	public PlayerFile(String name,BufferedReader reader) {
 		Objects.requireNonNull(reader);
 		this.name=name;
 		this.br=reader;
+		this.lastShotStatus=null;
 	}
 	
 	/**
-	 * Metodo getName(), getter del nombre del jugador.
+	 * Obtiene el nombre y tipo del jugador.
+	 * 
+	 * @return Nombre y tipo del jugador.
 	 */
 	@Override
 	public String getName() { return this.name+" (PlayerFile)"; }
 
 	/**
-	 * Metodo putCrafts(), ejecuta los comando de colocar un navio guardados en el buffer.
-	 * @param Board b, tabla del juego.
-	 * @throws BattleshipIOException 
-	 * @throws NextToAnotherCraftException 
-	 * @throws OccupiedCoordinateException 
-	 * @throws InvalidCoordinateException 
+	 * Coloca los navios del jugador en el tablero.
+	 *
+	 * @param b Tablero en donde colocar un navio.
+	 * @throws BattleshipIOException Si es genera un error en la lectura del fichero.
+	 * @throws InvalidCoordinateException Si se intenta colocar un navio en una coordenada fuera del tablero.
+	 * @throws OccupiedCoordinateException Si se intenta colocar un navio en una posicion ya ocupada.
+	 * @throws NextToAnotherCraftException Si se intenta colocar un navio al lado de otro.
 	 */
 	@Override
 	public void putCrafts(Board b) throws BattleshipIOException, InvalidCoordinateException, OccupiedCoordinateException, NextToAnotherCraftException {
@@ -108,19 +114,24 @@ public class PlayerFile implements IPlayer {
 	}
 
 	/**
-	 * Metodo nextShoot(), ejecuta los comandos de disparo guardados en el buffer.
-	 * @param Board b, tabla del juego.
-	 * @throws BattleshipIOException 
-	 * @throws InvalidCoordinateException 
-	 * @throws CoordinateAlreadyHitException 
+	 * Simula el siguiente disparo del jugador en el tablero introducido.
+	 * 
+	 * @param b Tablero al que disparar.
+	 * @return Coordenada en donde se golpeó.
+	 * @throws BattleshipIOException Si se genera un error del jugador.
+	 * @throws CoordinateAlreadyHitException Si se intenta disparar en una coordenada ya golpeada.
+	 * @throws InvalidCoordinateException Si se intenta disparar en una coordenada fuera del tablero.
 	 */
 	@Override
 	public Coordinate nextShoot(Board b) throws BattleshipIOException, CoordinateAlreadyHitException, InvalidCoordinateException {
 
 		try {
+			
 			String lectura=br.readLine();
 			
 			if(lectura == null || lectura.equals("exit") ) {
+				
+				this.lastShotStatus = null;
 				return null;
 			} else {
 				String [] tokens = lectura.split("\\s+");
@@ -137,7 +148,7 @@ public class PlayerFile implements IPlayer {
 					coord = CoordinateFactory.createCoordinate(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 				}
 				
-				b.hit(coord);
+				this.lastShotStatus=b.hit(coord);
 				return coord;
 			}
 			
@@ -146,5 +157,15 @@ public class PlayerFile implements IPlayer {
 		} catch (NumberFormatException e) {
 			throw new BattleshipIOException("Error en nextShoot con las coordenadas: "+e);
 		}
+	}
+
+	/**
+	 * Obtiene el estado de la ultima coordenada golpeada.
+	 * 
+	 * @return Estado del ultimo golpe.
+	 */
+	@Override
+	public CellStatus getLastShotStatus() {
+		return this.lastShotStatus;
 	}
 }

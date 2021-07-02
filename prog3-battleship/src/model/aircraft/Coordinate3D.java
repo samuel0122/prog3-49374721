@@ -12,16 +12,16 @@ import model.Coordinate;
 import model.CoordinateFactory;
 
 /**
-	Clase Coordinate3D, subclase de Coordinate
+	Coordenadas 3D.
  */
 public class Coordinate3D extends model.Coordinate {
 
 	/**
-	 * Constructor de la clase Coordinate3D. Inicialica un Coordinate con dimension 3 y establece los componentes
+	 * Constructor de Coordinate3D.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param z the z
+	 * @param x Dimension x.
+	 * @param y Dimension y.
+	 * @param z Dimension z.
 	 */
 	public Coordinate3D(int x, int y, int z) {
 		super(3);
@@ -33,7 +33,7 @@ public class Coordinate3D extends model.Coordinate {
 	/**
 	 * Constructor copia de Coordinate3D.
 	 *
-	 * @param c the c
+	 * @param c Coordenada3D.
 	 */
 	public Coordinate3D(Coordinate c) {
 		
@@ -41,8 +41,9 @@ public class Coordinate3D extends model.Coordinate {
 	}
 
 	/**
-	 * adjacentCoordinates de Coordinate3D. Crea una lista de las coordenadas 3D adjacentes. Es la implementacion del metodo abstract de su superclase Coordinate
-	 * @return Set Coordinate3D 26coordenadasAdjacentes
+	 * Obtiene las coordenadas 3D adyacentes.
+	 * 
+	 * @return Conjunto de coordenadas 3D adyacentes.
 	 */
 	@Override
 	public Set<Coordinate> adjacentCoordinates() {
@@ -65,8 +66,9 @@ public class Coordinate3D extends model.Coordinate {
 	}
 
 	/**
-	 * copy de Coordinate3D. Devuelve una copia de la Coordenada 3D. Es la implementacion del metodo abstract de su superclase Coordinate
-	 * @return Coordinate3D copiaCoord
+	 * Obtiene una copia la coordenada 3D.
+	 * 
+	 * @return Copia de la coordenada 3D actual.
 	 */
 	@Override
 	public Coordinate copy() {
@@ -74,8 +76,9 @@ public class Coordinate3D extends model.Coordinate {
 	}
 	
 	/**
-	 * toString de Coordinate3D. Crea un string con los componentes de la coordenada
-	 * @return String coordenada
+	 * Obtiene los componentes de la coordenada 3D.
+	 * 
+	 * @return Componentes de la coordenada 3D.
 	 */
 	public String toString() {
 		 return "("+get(0)+", "+get(1)+", "+get(2)+")";

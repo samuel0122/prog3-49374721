@@ -8,14 +8,14 @@ package model.ship;
 import model.Orientation;
 
 /**
- * Clase Carrier, subclase de Ship. Tipo de barco con 5 posiciones.
+ * Barco con 5 posiciones.
  */
 public class Carrier extends Ship {
 
 	/**
 	 * Constructor de la clase Carrier. Llama al constructor de Ship con los datos y define su shape
 	 *
-	 * @param o the o
+	 * @param o Orientacion del barco.
 	 */
 	public Carrier(Orientation o) {
 		super(o, '®', "Carrier");
@@ -43,4 +43,13 @@ public class Carrier extends Ship {
 			0, 0, 0, 0, 0}}; 
 	}
 
+	/**
+	 * Getter del valor del carrier.
+	 * 
+	 * @return Valor por destruir el Carrier.
+	 */
+	@Override
+	public int getValue() {
+		return 8;
+	}
 }

@@ -6,25 +6,26 @@ package model.exceptions;
 
 import model.Coordinate;
 
+// TODO: Auto-generated Javadoc
 /**
- * Clase OccupiedCoordinateException, subclase de BattleshipException.
+ * Clase OccupiedCoordinateException, subclase de CoordinateException.
  */
 @SuppressWarnings("serial")
 public class OccupiedCoordinateException extends CoordinateException {
 
 	/**
-	 * Constructor de OccupiedCoordinateException que guarda la coordenada en su superclase.
+	 * Constructor de OccupiedCoordinateException que guarda la coordenada.
 	 *
-	 * @param c the c
+	 * @param c Coordenada que provoca el error.
 	 */
 	public OccupiedCoordinateException(Coordinate c) {
 		super(c);
 	}
 	
 	/**
-	 * String de mensaje de error con la coordenada que lo provoca.
+	 * Obtiene el mensaje de error con la coordenada que lo provoca.
 	 *
-	 * @return String mensajeDeError
+	 * @return Mensaje de error.
 	 */
 	public String getMessage() {
 		return super.getMessage() +"coordenada no valida porque tiene una posición ya ocupada.";

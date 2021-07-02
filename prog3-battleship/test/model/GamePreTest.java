@@ -1,3 +1,6 @@
+/**
+ * @author Samuel Oliva
+ */
 package model;
 
 import static org.junit.Assert.*;
@@ -22,7 +25,7 @@ import model.ship.Board2D;
 
 public class GamePreTest {
 
-	final String DIRFILES ="pre-test/files/";
+	final String DIRFILES ="test/files/";
 	Game game;
 	IPlayer player1, player2; 
 	Board board1, board2;
@@ -100,6 +103,7 @@ public class GamePreTest {
 			compareLines (readFromFile(DIRFILES+"OngoingGame.sol").toString(),game.toString()+"\n");
 			
 			for (int i=0; i<13; i++) game.playNext();
+			System.out.println("Error:\n"+game.toString());
 			compareLines (readFromFile(DIRFILES+"GameEnded.sol").toString(),game.toString()+"\n");
 			assertTrue(game.gameEnded());
 		
@@ -131,6 +135,7 @@ public class GamePreTest {
 		//Se compara salida del alumno con la solución
 		StringBuilder sbSolution=readFromFile(DIRFILES+"testPlayGame1.sol");
 		StringBuilder sbStudent=readFromFile(outFile);
+		System.out.println(sbStudent.toString());
 		compareLines(sbSolution.toString(),sbStudent.toString());	
 	}
 	
@@ -183,6 +188,7 @@ public class GamePreTest {
 			fail("Cadena esperada de tamaño ("+exp.length+") distinto a la resultante ("+res.length+")");
 		for (int i=0; i<exp.length && iguales; i++) {
 			 if (! exp[i].contains("Action by")) {
+				 System.out.println("Esperado: "+exp[i]+" | Obtenido: "+res[i]);
 				 assertEquals("linea "+i, exp[i].trim(),res[i].trim());
 			 }
 		}

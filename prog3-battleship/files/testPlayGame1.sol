@@ -283,7 +283,7 @@ Raul (PlayerRandom)
 ??? •
 ==================================
 Number of shots: 14
-Action by Mary (PlayerRandom):Problem with coordinate (0, 1); it was already hit
+Action by dfsdfsdfsdf:Problem with coordinate (0, 1); it was already hit
 === ONGOING GAME ===
 ==================================
 Mary (PlayerRandom)
@@ -303,7 +303,7 @@ Raul (PlayerRandom)
 ??? •
 ==================================
 Number of shots: 15
-Action by Raul (PlayerRandom):Problem with coordinate (0, 1); it was already hit
+Action by gjkghjghjghjm):Problem with coordinate (0, 1); it was already hit
 === ONGOING GAME ===
 ==================================
 Mary (PlayerRandom)
@@ -551,7 +551,7 @@ Raul (PlayerRandom)
   ? •
 ==================================
 Number of shots: 28
-Action by Mary (PlayerRandom):Problem with coordinate (4, 1); it was already hit
+Action by Mary jkghjghjghlem with coordinate (4, 1); it was already hit
 === ONGOING GAME ===
 ==================================
 Mary (PlayerRandom)
@@ -667,7 +667,7 @@ Raul (PlayerRandom)
   ? •
 ==================================
 Number of shots: 34
-Action by Mary (PlayerRandom):Problem with coordinate (2, 2); it was already hit
+Action by hjghjghjhjkghjghjghjghjit
 === ONGOING GAME ===
 ==================================
 Mary (PlayerRandom)

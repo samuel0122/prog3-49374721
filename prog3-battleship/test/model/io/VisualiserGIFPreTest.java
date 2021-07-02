@@ -1,3 +1,6 @@
+/**
+ * @author Samuel Oliva
+ */
 package model.io;
 
 import static org.junit.Assert.assertTrue;
@@ -30,7 +33,7 @@ import model.ship.Destroyer;
 
 public class VisualiserGIFPreTest {
 
-	final String DIRFILES = "pre-test/files/";
+	final String DIRFILES = "test/files/";
 	Game game;
 	IPlayer player1, player2; 
 	Board board1, board2;
@@ -69,7 +72,7 @@ public class VisualiserGIFPreTest {
 		 * con la solución, ejecutar solo este test por separado y comprobar luego las diferencias.
 		 */
 		
-		//He comparado los GIF manualmente y están bien
+		//He comparado los GIF manualmente y están bien, si te da error comprueba manualmente los gif
 	//	assertTrue ("Comprueba este test de forma aislada",compareFiles(DIRFILES+"emptyBoard2D.gif","files/output.gif"));
 		
 	}
@@ -90,7 +93,7 @@ public class VisualiserGIFPreTest {
 		vg.close();
 		
 		//La correción manual está bien
-	//	assertTrue(compareFiles(DIRFILES+"emptyBoard3D.gif","files/output.gif"));
+	//	assertTrue("Comprueba este test de forma aislada",compareFiles(DIRFILES+"emptyBoard3D.gif","files/output.gif"));
 		
 	}
 
@@ -139,8 +142,8 @@ public class VisualiserGIFPreTest {
 		vg.show();
 		vg.close();
 		
-		//La correción manual está bien
-	//	assertTrue(compareFiles(DIRFILES+"Show2D.gif","files/output.gif"));
+		//La correción manual está bien, si te da error comprueba manualmente los gif
+	//	assertTrue("Comprueba este test de forma aislada",compareFiles(DIRFILES+"Show2D.gif","files/output.gif"));
 	}
 
 	

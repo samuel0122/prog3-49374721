@@ -6,10 +6,16 @@
 package model;
 
 /**
- * Clase Enum Orientation.
+ * Enum con las orientaciones.
  */
 public enum Orientation {
 	
-	/** Orientaciones posibles */
-	NORTH, EAST, SOUTH, WEST;
+	 /**  Orientacion norte. */
+	 NORTH, 
+	 /** Orientacion este. */
+	 EAST, 
+	 /** Orientacion sur. */
+	 SOUTH, 
+ 	 /** Orientacion oeste. */
+ 	 WEST;
 }

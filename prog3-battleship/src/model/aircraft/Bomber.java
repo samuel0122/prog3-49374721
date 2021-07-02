@@ -9,14 +9,14 @@ import model.Orientation;
 
 
 /**
- * Clase Bomber, subclase de Aircraft
+ * Clase Bomber, subclase de Aircraft.
  */
 public class Bomber extends Aircraft {
 
 	/**
-	 * Constructor de la clase Bomber. Llama al constructor de Aircraft con los datos y define su shape
+	 * Constructor de la clase Bomber.
 	 *
-	 * @param o the o
+	 * @param o Orientacion del avion.
 	 */
 	
 	public Bomber (Orientation o) {
@@ -43,6 +43,16 @@ public class Bomber extends Aircraft {
 		    	0, 1, 1, 1, 1,	
 		    	0, 0, 1, 0, 0,
 		    	0, 0, 1, 1, 0}};
+	}
+
+	/**
+	 * Getter del valor del navio.
+	 * 
+	 * @return Puntos por destruir el Bomber.
+	 */
+	@Override
+	public int getValue() {
+		return 15;
 	}
 
 }

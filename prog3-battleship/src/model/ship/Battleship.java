@@ -8,14 +8,14 @@ package model.ship;
 import model.Orientation;
 
 /**
- * Clase Battleship, subclase de Ship. Tipo de barco con 4 posiciones.
+ * Barco con 4 posiciones.
  */
 public class Battleship extends Ship {
 
 	/**
 	 * Constructor de la clase Battleship. Llama al constructor de Ship con los datos y define su shape
 	 *
-	 * @param o the o
+	 * @param o Orientacion del barco.
 	 */
 	public Battleship(Orientation o) {
 		super(o, 'O', "Battleship");
@@ -43,5 +43,14 @@ public class Battleship extends Ship {
 		    	0, 0, 0, 0, 0}}; 
 	}
 	
+	/**
+	 * Getter del valor del battleship.
+	 *
+	 * @return Valor por destruir el Battleship.
+	 */
+	@Override
+	public int getValue() {
+		return 6;
+	}
 	
 }

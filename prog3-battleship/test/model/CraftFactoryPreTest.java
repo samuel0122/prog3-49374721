@@ -1,3 +1,6 @@
+/**
+ * @author Samuel Oliva
+ */
 package model;
 
 import static org.junit.Assert.assertEquals;
@@ -18,21 +21,21 @@ public class CraftFactoryPreTest {
 		Craft craft;
 		for (Orientation orient : Orientation.values()) {
 			//Comprueba los ships
-			craft = CraftFactory.createCraft("Battleship", orient);
+			craft = CraftFactory.createCraft("ship.Battleship", orient);
 			assertTrue (craft instanceof Battleship );
-			craft = CraftFactory.createCraft("Carrier", orient);
+			craft = CraftFactory.createCraft("ship.Carrier", orient);
 			assertTrue (craft instanceof Carrier );
-			craft = CraftFactory.createCraft("Cruiser", orient);
+			craft = CraftFactory.createCraft("ship.Cruiser", orient);
 			assertTrue (craft instanceof Cruiser );
-			craft = CraftFactory.createCraft("Destroyer", orient);
+			craft = CraftFactory.createCraft("ship.Destroyer", orient);
 			assertTrue (craft instanceof Destroyer );
 			
 			//Comprueba los aircrafts
-			craft = CraftFactory.createCraft("Bomber", orient);
+			craft = CraftFactory.createCraft("aircraft.Bomber", orient);
 			assertTrue (craft instanceof Bomber );
-			craft = CraftFactory.createCraft("Fighter", orient);
+			craft = CraftFactory.createCraft("aircraft.Fighter", orient);
 			assertTrue (craft instanceof Fighter );
-			craft = CraftFactory.createCraft("Transport", orient);
+			craft = CraftFactory.createCraft("aircraft.Transport", orient);
 			assertTrue (craft instanceof Transport );
 		}
 	}
@@ -41,6 +44,6 @@ public class CraftFactoryPreTest {
 	/* Comprueba que createCraft devuelve null si el Craft es desconocido */
 	@Test
 	public void testCreateCraftWrong() {
-		assertEquals(null,CraftFactory.createCraft("aSaberQueNavioEsEste", Orientation.NORTH));
+		assertEquals(null,CraftFactory.createCraft("ship.aSaberQueNavioEsEste", Orientation.NORTH));
 	}
 }

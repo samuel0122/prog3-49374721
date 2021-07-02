@@ -11,24 +11,24 @@ import model.CoordinateFactory;
 import model.Craft;
 
 /**
- * Clase Board2D, subclase de Board
+ * Tablero 2D.
  */
 public class Board2D extends Board {
 
 	/**
-	 * Constructor Board2D que llama al constructor de Board con el tamaño.
+	 * Constructor Board2D.
 	 *
-	 * @param size the size
-	 * @throws IllegalArgumentException the illegal argument exception
+	 * @param size Tamaño del tablero.
+	 * @throws IllegalArgumentException Si el tamaño no es el permitido.
 	 */
 	public Board2D(int size) { super(size); }
 	
 	/**
-	 * CheckCoordinate comprueba que la coordenada está dentro de  los límites del tablero 2D.
+	 * Comprueba que la coordenada está dentro de  los límites del tablero 2D.
 	 *
-	 * @param c the c
-	 * @return true, if successful
-	 * @throws IllegalArgumentException the illegal argument exception
+	 * @param c Coordenada2D.
+	 * @return true, si es una coordenada valida.
+	 * @throws IllegalArgumentException Si el parametro no es una coordenada 2D.
 	 */
 	@Override
 	public boolean checkCoordinate(Coordinate c) {
@@ -42,10 +42,10 @@ public class Board2D extends Board {
 	}
 	
 	/**
-	 * Show Board3D. Crea String con la representación del tablero. Si unveil es true muestra todas las posiciones, si es false muestra las coordenadas guardadas en seen
-	 *
-	 * @param unveil the unveil
-	 * @return String tablero2D
+	 * Representa el tablero en modo oculto o mostrando todos los elementos dependiendo de unveil.
+	 * 
+	 * @param unveil True si se quiere mostrar todos los elementos del tablero.
+	 * @return Representacion del tablero2D.
 	 */
 	public String show(boolean unveil) {
 		String tabla = "";
